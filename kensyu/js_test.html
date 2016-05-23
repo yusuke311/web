@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>JavaScriptテスト</title>
+</head>
+<body>
+<script type="text/javascript">
+<!--
+	document.bgColor = "ddffff"; //水色
+	document.write("Hello World<br>");
+	//var num = 10;
+	//document.write("数字は"+num + "です。");
+	function Sum( m, n )
+	{
+		var sum = 0;
+		for( var i=m;i<=n;i++ )
+		{
+			sum += i;
+		}
+		return sum;
+	}
+	function HTMLCalc()
+	{
+		var start = parseInt(document.form1.start.value);
+		var end = parseInt(document.form1.end.value);
+		document.getElementById("sumid").value = Sum(start,end);
+	}
+// -->
+</script>
+<form name="form1" action="">
+	開始値<input type="text" name="start" /><br>
+	終了値<input type="text" name="end" /><br>
+	<input type="button" value="計算" onclick="HTMLCalc()" />
+	<input id="sumid"type="text" name="sum" value="" />
+</form>
+
+</body>
+</html>
