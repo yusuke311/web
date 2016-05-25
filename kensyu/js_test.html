@@ -24,14 +24,19 @@
 		var end = parseInt(document.form1.end.value);
 		document.getElementById("sumid").value = Sum(start,end);
 	}
+	function kuku()
+	{
+
+	}
 // -->
 </script>
 <form name="form1" action="">
-	開始値<input type="text" name="start" /><br>
-	終了値<input type="text" name="end" /><br>
+	開始値<input type="text" name="start" onchange="HTMLCalc()" /><br>
+	終了値<input type="text" name="end" onchange="HTMLCalc()"/><br>
 	<input type="button" value="計算" onclick="HTMLCalc()" />
 	<input id="sumid"type="text" name="sum" value="" />
-</form>
+</form><br>
+
 
 </body>
 </html>

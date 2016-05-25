@@ -4,7 +4,11 @@ class BMICalc
 	private $height;
 	private $weight;
 	private $BMI;
-
+	
+	function __construct()
+	{
+		$this->BMI = 0;
+	}
 	public function Calc()
 	{
 		$this->BMI =  $this->weight / pow($this->height/100,2);
