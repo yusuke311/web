@@ -1,0 +1,92 @@
+<html>
+<head>
+<style type="text/css">
+
+.centerline.div
+{
+
+}
+input[type="text"] { height: 23px;
+background:ccccff;
+color:6666ff;
+}
+input.example2 { width: 150px; }
+body 
+{
+	margin:center;
+	text-align:center;
+	margin-bottom:30px;
+	background:ccccff;
+}
+
+</style>
+
+<script type="text/javascript">
+<!--
+	function CheckForm()
+	{
+		var checkflag = true;
+	//	alert(document.form1.pass.value);
+		if( document.form1.pass.value == "")
+		{
+			checkflag = false;
+		}
+		if( document.form1.email.value == "")
+		{
+			checkflag = false;
+		}
+
+		if( document.form1.email.value != document.form1.email2.value )
+		{
+			checkflag = false;
+		}
+		
+		if( !document.getElementById("fav1").checked &&
+				!document.getElementById("fav2").checked && !document.getElementById("fav3").checked )
+		{
+			checkflag = false;
+		}
+		
+		return checkflag;
+	}
+//-->
+</script>
+<title>タイトル</title>
+</head>
+<body>
+<!-- ここに文書を書く<br>
+&lt;center&gt;<center>中央タグ</center>
+<h1>ここから課題</h1><br>
+-->
+<div class="centerline">
+<form method="POST" action="showdata.php" name="form1" onSubmit="return CheckForm()" >
+	[名前]<input type="text" name="name" maxlength="30"><br>
+	[パスワード]<input type="password" name="pass" value="" maxlength="8"/><br>
+	[性別]
+	 　男<input type="RADIO" name="sex" value="0" />
+	 　女<input type="RADIO" name="sex" value="1" />
+	  　回答しない<input type="RADIO" name="sex" value="2" /><br>
+	[都道府県]
+	<select name="pref">
+		<option value="1">北海道</option>
+		<option value="2">茨城県</option>
+		<option value="3">東京都</option>
+		<option value="4" selected="true">神奈川県</option>
+	</select><br>
+	[住所]<input type="text" name="address" maxlength="100"/><br>
+	[電話番号]<input type="TEXT" name="tel" maxlength="15"/><br>
+	[e-mail]<input type="TEXT" name="email" maxlength="50" value="" /><br>
+	[e-mail確認]<input type="TEXT" name="email2" maxlength="50" /><br>
+	[興味]  米<input id="fav1"type="CHECKBOX" name="favorite" value="1" />
+	　　パン<input id="fav2" type="CHECKBOX" name="favorite" value="2"/>
+	　　水<input id="fav3" type="CHECKBOX" name="favorite" value="3"/>
+	<br>
+	<textarea name="comment" cols="30" rows="10" />ここに入力してください</textarea><br>
+	<input type="SUBMIT" value="送信" name="send" /><br>
+	<input type="RESET" value="元に戻す"/><br>
+	<input type="HIDDEN" name="id" value="systemzeus"/><br>
+</form>
+</div>
+
+</body>
+</html>

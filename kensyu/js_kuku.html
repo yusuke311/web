@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>九九の表</title>
+<style type="text/css">
+.table3 {
+  border-collapse: collapse;
+  width: 250px;
+
+}
+.table3 td{
+ text-align:center;
+ width:22px;
+}
+</style>
+<script type="text/javascript">
+<!--
+	document.write("<table class='table3' border=\"1\">");
+	for( var i = 1; i<=9; i++ )
+	{
+		document.write("<tr>");
+		for( var j = 1; j<=9; j++ )
+		{
+			if( i == 1 || j == 1 )
+			{
+				document.write("<td bgcolor='bbbbff'>" + (i * j) + "</td>");
+			}
+			else
+			{
+				document.write("<td>" + (i * j) + "</td>");
+			}
+		}
+		document.write("</tr>");
+	}
+	document.write("</table>");
+-->
+</script>
+</head>
+<body>
+</body>
+</html>
