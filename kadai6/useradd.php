@@ -9,6 +9,7 @@
 	$pass;
 	$mysql = new MySQLClass();
 //	echo "REQUEST<BR>";
+	//POSTされたデータを受け取る
 	if( $_SERVER["REQUEST_METHOD"] == "POST" )
 	{
 		$userID = $_POST["userID"];
@@ -27,13 +28,13 @@
 	if(!$mysql->ConnectSQL("localhost","yusuke","MGS"))
 	{
 		echo "MySQLに接続できませんでした<br>";
-		exit();
+		exit;
 	}
 //	echo "training<br>";
 	if( !$mysql->UseDataBase("training") )
 	{
 		echo "trainingがありませんでした。<br>";
-		exit();
+		exit;
 	}
 //	echo "Query<br>";
 	//重複していないかチェックするためuserIDでwhereをかける

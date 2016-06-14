@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>ユーザ登録</title>
+<script type="text/javascript">
+<!--
+	function CheckData()
+	{
+		var userID = document.form1.userID.value;
+		var pass = (document.form1.pass.value);
+		var re_pass = (document.form1.re_pass.value);
+		
+
+		if( !userID.match(/.+@.+\..+/) )
+		{
+			alert("メールアドレスが正しくありません");
+			return false;
+		}
+
+		if( pass == "" )
+		{
+			alert("パスワードが入力されていません");
+			return false;
+		}
+		if( pass != re_pass )
+		{
+			alert("パスワードが一致していません");
+			return false;
+		}
+
+		return true;
+
+	}
+-->
+</script>
+</head>
+<body>
+<h1>ユーザ登録</h1><br>
+<form method="POST" name="form1" action="usercheck.php" onsubmit="return CheckData()">
+	ユーザID(メールアドレス)<br><input type="TEXT" name="userID" /><br><br>
+	パスワード<br><input type="PASSWORD" name="pass" /><br><br>
+	パスワード(確認)<br><input type="PASSWORD" name="re_pass" /><br><br>
+	<input type="SUBMIT" value="送信" />
+</form>
+
+</body>
+</html>

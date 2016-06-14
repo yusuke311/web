@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>ユーザー登録</title>
+<style>
+.centerleft
+{
+	margin-left:auto;
+	margin-right:auto;
+	width:200px;
+}
+input
+{
+	margin-top:10px;
+	margin-bottom:20px;
+	margin-left:2px;
+	border-top-width: 2px;
+	border-left-width: 1px;
+	margin-right: 2px;
+	border-right-width: 2px;
+	margin-left: 2px;
+	padding:2px;
+}
+</style>
+</head>
+<body>
+	<h1 style="text-align:center;margin-bottom:50px;">ユーザ登録</h1>
+	<div class="centerleft">
+		<form method="POST" action="userregistcheck.php">
+			ユーザID<input type="TEXT" name="userID"/><br>
+			パスワード<input type="PASSWORD" name="pass"/><br>
+			氏名<br><input type="TEXT" name="name" /><br>
+			郵便番号<br><input type="TEXT" pattern="\d{3}-\d{4}" name="postalcode" /><br>
+			都道府県<br><input type="TEXT" name="pref" /><br>
+			市区町村<br><input type="TEXT" name="city" /><br>
+			性別<br><input type="RADIO" name="sex" value="man">男&nbsp;
+			<input type="RADIO" name="sex" value="woman"/>女&nbsp;
+			<input type="RADIO" name="sex" value="未回答" checked="checked"/>未回答&nbsp;<br>
+			その他<br><input  type="TEXT" name="address" /><br>
+			<input type="SUBMIT" style="margin-left:2px;margin-right:auto;width:151px;padding-left:10px;padding-right:10px;" value="登録" /><br>
+		</form>
+</body>
+</html>
+

@@ -6,6 +6,20 @@
 <?php
 	require "./sqlclass.php";
 
+	session_start();
+	if(!isset($_SESSION["userID"]))
+	{
+		header("Location: index.php");
+	}
+	if( $_SERVER["REQUEST_METHOD"] == "GET" )
+	{
+		if(isset($_GET["logout"]))
+		{
+			unset($_SESSION["userID"]);
+			header("Location: index.php");
+		}
+	}
+	
 	echo "<h1>ユーザ情報の編集</h1>\n";
 
 	$userID;
@@ -55,10 +69,13 @@
 		echo "\n<br>Queryエラー<br>";
 	}
 	$num = 0;
+?>
 
-	//ユーザ選択リストの作成
-	echo "<form method='POST' action='userlist.php' name='form1' >";
-	echo "<select name='userlist'>\n";
+<?//ユーザ選択リストの作成?>
+
+	<form method='POST' action='userlist.php' name='form1' >
+		<select name='userlist'>
+<?php
 	while( $result = $mysql->GetDatatoMap() )
 	{
 		if( $userID == $result["userID"] )
@@ -72,11 +89,12 @@
 		echo $result["userID"];
 		echo "</option>\n";
 	}
-	echo "</select>\n";
-	
-	//選択したユーザを表示する
-	echo "<input type='submit' value='選択'/><br>";
-	echo "</form>\n";
+?>
+		</select>
+<?//選択したユーザを表示する?>
+		<input type='submit' value='選択'/><br>
+	</form>
+<?php
 	if( $_SERVER["REQUEST_METHOD"] == "POST" )
 	{
 		echo "<form method='POST' action='userupdate.php' name='form2'>\n";
@@ -87,8 +105,8 @@
 		echo "</form>\n";
 
 	}
-	
 ?>
+	
 </body>
 </html>
 
