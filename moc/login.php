@@ -1,5 +1,7 @@
 <?php
 	require_once("./sqlclass.php");
+	require_once("./library.php");
+	session_start();
 
 	$adminID 	= "admin";
 	$adminpass		= "suez";
@@ -7,6 +9,23 @@
 	$userID;
 	$pass;
 	$failed = false;
+
+	if( $_SERVER["REQUEST_METHOD"] == "GET" )
+	{
+		if( isset($_GET["logout"]) )
+		{
+			$_SESSION = array();
+			if (ini_get("session.use_cookies")) {
+			    $params = session_get_cookie_params();
+			    setcookie(session_name(), '', time() - 42000,
+				        $params["path"], $params["domain"],
+					    $params["secure"], $params["httponly"]
+			    );
+			}
+			session_destroy();
+			header("Location: ./login.php");
+		}
+	}
 
 	if($_SERVER["REQUEST_METHOD"] == "POST" )
 	{
@@ -18,7 +37,7 @@
 		{
 			session_start();
 			session_regenerate_id(true);
-			$_SESSION["admin"] = $userID;	
+			$_SESSION["admin"] = true;	
 			header("Location: admin.php");
 			exit;
 		}
@@ -28,7 +47,7 @@
 		{
 			$mysql = new MyPDOClass();
 			$mysql->ConnectSQL("MYSQL","localhost","webuser","user","website");
-			$mysql->PrepareQuery("select * from userlist where userID = :userID and password = :password");
+			$mysql->PrepareQuery("select * from userlist where userID = :userID and password = :password and registtype = 1");
 			if( !$mysql->Execute(array(":userID"=>$userID,":password"=>$pass)) )
 			{
 				echo "Executeエラー";
@@ -37,6 +56,11 @@
 			//戻り値が真 == userが見つかった時
 			if( $mysql->fetch_num() )
 			{
+				$mysql->PrepareQuery("update userlist set lastlogindate = now() where userID = :userID");
+				if( !$mysql->Execute(array(":userID"=>$userID)))
+				{
+					echo "ERROR";
+				}
 				session_start();
 				session_regenerate_id(true);
 				$_SESSION["userID"] = $userID;	
@@ -74,6 +98,11 @@
 			<div class="row">
 				<!-- <div class="col-xs-6 col-xs-offset-3 text-center" style="background-color:#FF4401;padding:30px 5px;"> -->
 			<div class="col-xs-6 col-xs-offset-3 text-center" >
+				<div class="row">
+					<div class="col-xs-2 col-xs-offset-6 text-right">
+						<a href="userregistry.php">新規登録</a>
+					</div>
+				</div>
 <h1 >ログイン</h1>
 				<form method="POST" action="login.php">
 				<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが一致しません</font>';?>

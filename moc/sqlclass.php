@@ -57,6 +57,7 @@ class MyPDOClass
 {
 	private $pdo;
 	private $stmt=NULL;
+	private $quickmode = false;	//QuickQueryを実行した際trueになる
 
 	function __construct()
 	{
@@ -87,8 +88,8 @@ class MyPDOClass
 	}	
 	public function QuickQuery($SQL)
 	{
-		$this->stmt = NULL;
-		return $this->pdo->query($SQL);
+		$this->quickmode = true;
+		$this->stmt = $this->pdo->query($SQL);
 	}
 
 	public function Execute($PrepareParam)
@@ -122,6 +123,36 @@ class MyPDOClass
 		return $this->stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
+	public function Transaction()
+	{
+		$this->pdo->beginTransaction();
+	}
+
+	public function Commit()
+	{
+		$this->pdo->commit();
+	}
+
+	public function RollBack()
+	{
+		$this->pdo->rollBack();
+	}
+
+	//指定したSQLに一致したレコード数を取得するメソッド
+	//SQLはPrepareメソッドで指定し、パラメータはこのメソッドで渡す
+	public function GetDataCountToPrerare($param)
+	{
+		if( !$this->Execute($param))
+		{
+			return 0;
+		}
+		$num = 0;
+		while( $result = $this->fetch_num() )
+		{
+			$num++;
+		}
+		return $num;
+	}
 
 }
 ?>
