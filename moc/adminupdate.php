@@ -15,7 +15,7 @@ if( !isset($_SESSION["userdata"]) )
 $userdata = json_decode($_SESSION["userdata"],true);
 
 //update文
-$SQL = "update userlist set	userID = :userID,password = :pass,name = :name,postal = :postalcode,pref = :pref,city = :city ,addr1 = :addr1,addr2 = :addr2,sex = :sex,tel = :tel,beef = :beef,vegetable = :vegetable,fish = :fish where userID = :beforeUserID";
+$SQL = "update userlist set	userID = :userID,password = :pass,name = :name,postal = :postalcode,pref = :pref,city = :city ,addr1 = :addr1,addr2 = :addr2,sex = :sex,tel = :tel,beef = :beef,vegetable = :vegetable,fish = :fish  , registtype = :registtype where userID = :beforeUserID";
 
 //DB更新用のパラメータ
 $Param = array(
@@ -32,8 +32,10 @@ $Param = array(
 	":beef"=>$userdata["beef"],
 	":vegetable"=>$userdata["vegetable"],
 	":fish"=>$userdata["fish"],
-	":beforeUserID"=>$_SESSION["userID"]
+	":beforeUserID"=>$_SESSION["userID_admin"],
+	":registtype"=>$userdata["registtype"]
 );
+var_dump($Param);
 
 try
 {
@@ -46,8 +48,9 @@ try
 	//ログイン時のユーザID(メアド)が更新したユーザIDと違う場合
 	//変更したメアドにメールを送る
 	$result = true;			//成功したかのフラグ
-	$mailupdate = false;	//メールアドレスが更新されたかのフラグ
-	if( $_SESSION["userID"] != $userdata["userID"] )
+	$mailupdate = false;	//メールアドレスが更新されたかのフラグi
+	/*
+	if( $_SESSION["userID_admin"] != $userdata["userID"] )
 	{
 		$Title = "ユーザ更新情報";
 		$str = "メールアドレスを変更しました。";
@@ -62,6 +65,7 @@ try
 		}
 		$mailupdate = true;
 	}
+	 */
 	//正常終了した場合コミットする
 	if( $result )
 	{
@@ -69,7 +73,7 @@ try
 	}
 
 	//セッションの更新と余計なデータを削除する
-	$_SESSION["userID"] = $userdata["userID"];
+	$_SESSION["userID_admin"] = $userdata["userID"];
 	unset($_SESSION["userdata"]);
 }
 catch( PDOException $e )
@@ -122,6 +126,6 @@ catch( PDOException $e )
 		}
 		?>
 	</p>
-	<a class="btn btn-default" href="user.php" role="button">ユーザページに戻る</a>
+	<a class="btn btn-default" href="adminuser.php" role="button">ユーザページに戻る</a>
 </body>
 </html>

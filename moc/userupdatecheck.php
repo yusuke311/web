@@ -2,9 +2,8 @@
 require_once("./sqlclass.php");
 session_start();
 
-//ユーザーページから遷移していない、
-//またはPOSTされていない場合ユーザページに飛ばす
-if(!isset($_SESSION["userpage"]) || $_SERVER["REQUEST_METHOD"] != "POST" )
+//POSTされていない場合ユーザページに遷移する
+if($_SERVER["REQUEST_METHOD"] != "POST" )
 {
 	header("Location: user.php");
 	exit;
@@ -28,7 +27,6 @@ try
 			echo "<a href='./user.php'>ユーザページに戻る</a>";
 			exit;
 		}
-
 	}
 }
 catch(PDOException $e)
@@ -36,8 +34,8 @@ catch(PDOException $e)
 	echo "ERROR 重複チェック".$e->getMessage();
 }
 
-
 //最初に０で初期化して、送られたチェックボックスの名前を調べる
+//未選択時バグあり
 $beef = 0;
 $vegetable = 0;
 $fish = 0;
@@ -60,7 +58,7 @@ foreach( $_POST["like"] as $var)
 		$likestr .= "魚　";
 	}
 }
-//json形式にする
+//データを更新完了画面に送るためにjson形式にする
 $_SESSION["userdata"]  = json_encode( 
 	array(
 		"userID"=>$_POST["userID"],
@@ -78,7 +76,7 @@ $_SESSION["userdata"]  = json_encode(
 		"fish"=>$fish
 	) );
 
-//HTML用文章生成
+//HTML出力用文章生成
 $sexstr;
 switch($_POST["sex"])
 {
@@ -130,8 +128,8 @@ function submitcancel()
 			<tr><td>好きなもの</td><td><?php echo $likestr;?></td>
 		</table>
 		<form method="POST" action="userupdate.php">
-					<button class="btn btn-primary" type="SUBMIT">更新</button>
-					<button class="btn" type="BUTTON" onclick="submitcancel()">キャンセル</button>
+			<button class="btn btn-primary" type="SUBMIT">更新</button>
+			<button class="btn" type="BUTTON" onclick="submitcancel()">キャンセル</button>
 		</form>
 	</div>
 </body>

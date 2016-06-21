@@ -9,13 +9,38 @@ if($_SERVER["REQUEST_METHOD"] != "POST" )
 	exit;
 }
 
-session_regenerate_id(true);
+try
+{
+	//ユーザIDが変更されていたら
+	//ユーザIDの重複チェックを行う
+	if( $_SESSION["userID_admin"] != $_POST["userID"] )
+	{
+		$mysql = new MyPDOClass();
+		$mysql->ConnectSQL("MYSQL","localhost","webuser","user","website");
+		$mysql->PrepareQuery("select * from userlist where userID = :userID");
+		$num = $mysql->GetDataCountToPrerare(array(":userID"=>$_POST["userID"]));
 
+		//重複していたらメッセージを出して終了
+		if( $num >= 1 )
+		{
+			echo "入力されたユーザ名がすでに存在します<br>";
+			echo "<a href='./adminuser.php'>ユーザ編集ページに戻る</a>";
+			exit;
+		}
+	}
+}
+catch(PDOException $e)
+{
+	echo "ERROR 重複チェック".$e->getMessage();
+}
+
+//チェックボックスの値はそのまま使えないため変換する
 //最初に０で初期化して、送られたチェックボックスの名前を調べる
+//未選択時バグあり
 $beef = 0;
 $vegetable = 0;
 $fish = 0;
-$likestr= "";	//チェックボックス文字出力用
+$likestr= "";
 foreach( $_POST["like"] as $var)
 {
 	if( $var == "beef" )
@@ -28,7 +53,7 @@ foreach( $_POST["like"] as $var)
 		$vegetable = 1;
 		$likestr .= "野菜　";
 	}
-	else if( $var == "魚")
+	else
 	{
 		$fish = 1;
 		$likestr .= "魚　";
@@ -49,9 +74,11 @@ $_SESSION["userdata"]  = json_encode(
 		"tel"=>$_POST["tel"],
 		"beef"=>$beef,
 		"vegetable"=>$vegetable,
-		"fish"=>$fish
+		"fish"=>$fish,
+		"beforeUserID"=>$_SESSION["userID_admin"],
+		"registtype"=>$_POST["registtype"]
 	) );
-
+var_dump($_SESSION["userdata"]);
 //HTML出力用文章生成
 $sexstr;
 switch($_POST["sex"])
@@ -66,6 +93,22 @@ case 2:
 	$sexstr = "女";
 	break;
 }
+
+$registstr;
+switch($_POST["registtype"])
+{
+case 0:
+	$registstr = "仮登録";
+	break;
+case 1:
+	$registstr = "本登録";
+	break;
+case 2:
+	$registstr = "停止";
+	break;
+}
+
+
 ?>
 <html>
 <head>
@@ -83,7 +126,7 @@ case 2:
 <script type="text/javascript">
 function submitcancel()
 {
-	location.href = "./userregistry.php";
+	location.href = "./adminuser.php";
 }
 </script>
 
@@ -102,8 +145,9 @@ function submitcancel()
 			<tr><td>住所２</td><td><?php echo $_POST["addr2"];?></td>
 			<tr><td>性別</td><td><?php echo $sexstr;?></td>
 			<tr><td>好きなもの</td><td><?php echo $likestr;?></td>
+			<tr><td>登録状態</td><td><?php echo $registstr;?></td>
 		</table>
-		<form method="POST" action="userregistrydone.php">
+		<form method="POST" action="adminupdate.php">
 			<button class="btn btn-primary" type="SUBMIT">更新</button>
 			<button class="btn" type="BUTTON" onclick="submitcancel()">キャンセル</button>
 		</form>

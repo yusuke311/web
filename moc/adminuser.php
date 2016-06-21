@@ -3,24 +3,35 @@ require_once("./sqlclass.php");
 require_once("./userdataclass.php");
 
 session_start();
-//ユーザIDがセットされていない場合ログイン画面に遷移する
-if(!isset($_SESSION["userID"]))
+
+
+//管理者でないまたは
+//ユーザがセットされずかつPOSTされていない場合
+if($_SESSION["admin"] == false || ( isset($_SESSION["userID_admin"]) == false && $_SERVER["REQUEST_METHOD"] != "POST" ) )
 {
-	header("Location: ./login.php");
+	header("Location: ./admin.php");
 	exit;
 }
 
-$userID = $_SESSION["userID"];
+//編集されるユーザが格納されていない場合格納する
+if( isset($_SESSION["userID_admin"]) == false )
+{
+	//送られたユーザIDをセッションに記憶する
+	//$_SESSION["userID"]はユーザページで使用しているため重複を避けるために別の名前を使用する
+	$_SESSION["userID_admin"] = htmlspecialchars_decode($_POST["userID"],ENT_QUOTES);
+	var_dump($_SESSION["userID_admin"]);
+}
 $userdata = new UserData();
 
 //DBへ接続
 $userdata->SetMySQLData("localhost","webuser","user","website");
-if( !$userdata->GetUserDataToMySQL($userID) )
+if( !$userdata->GetUserDataToMySQL($_SESSION["userID_admin"]) )
 {
 	echo "存在しない不正なユーザです";
 }
 //ユーザデータを取得する
 $data = $userdata->GetUserData();
+
 ?>
 <html>
 <head>
@@ -108,10 +119,10 @@ input
 
 </head>
 <body>
-<a href="login.php?logout">ログアウト</a>
+<a href="admin.php">ユーザ一覧に戻る</a>
 	<div class="container">
 		<h1 class="page-header">ユーザページ</h1>	
-		<form method="POST" name="userdata" action="userupdatecheck.php" onSubmit="return ParamCheck()">
+		<form method="POST" name="userdata" action="adminupdatecheck.php" onSubmit="return ParamCheck()">
 			<div class="form-group">
 			<div id="userID"> ユーザID</div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>"/><br>
 			</div>
@@ -154,12 +165,19 @@ input
 					魚<input  type="CHECKBOX" class="check-inline" name="like[]" value="fish" <?php if($data['fish'] ==1 )echo "checked='checked'";?>/>
 			</div>
 			<div class="form-group">
-					<input type="SUBMIT"  class="form-control" value="更新"  /><br>
+					登録状態<br>
+					<input type="RADIO" class="radio-inline" name="registtype" value="0" <?php if($data['registtype'] == 0) echo "checked='checked'";?>/>仮登録
+					<input type="RADIO" class="radio-inline" name="registtype" value="1" <?php if($data['registtype'] == 1) echo "checked='checked'";?>/>本登録
+					<input type="RADIO" class="radio-inline" name="registtype" value="2" <?php if($data['registtype'] == 2) echo "checked='checked'";?>/>停止
 			</div>
-				</form>
+			<div class="form-group">
+				<input type="SUBMIT"  class="form-control" value="更新"  /><br>
+			</div>
+		</form>
 			</div>
 		</div>
 	</div>
 </body>
 </html>
+
 

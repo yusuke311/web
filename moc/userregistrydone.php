@@ -4,33 +4,33 @@ require_once("./sqlclass.php");
 require_once("./library.php");
 
 session_start();
-//$highgraderegistry;
+$highgraderegistry;	//本登録かどうかのフラグ
 //本登録
-
 if( $_SERVER["REQUEST_METHOD"] == "GET" )
 {
 	$highgraderegistry = true;
 	$token = $_GET["ID"];
+
+	//トークンからユーザIDを取得する
 	$userID = GetUserIDToTokenMySQL("localhost","webuser","user","website","tokenlist",$token);
+
+	//存在しないトークンの場合ログイン画面に遷移する
 	if( $userID == NULL )
 	{
-		echo "userID = NULL";
-		exit;
 		header("Location: login.php");
+		exit;
 	}
 	
-	$mysql = new MyPDOClass();
-	$mysql->ConnectSQL("MYSQL","localhost","webuser","user","website");
-	$result = true;
 	try
 	{
+		$mysql = new MyPDOClass();
+		$mysql->ConnectSQL("MYSQL","localhost","webuser","user","website");
+		$result = true;
 		$mysql->Transaction();	//トランザクション　始め
 
-		//本登録処理SQL
+		//本登録処理SQL プリペアにするべき
 		$updateSQL = "update userlist set registtype = 1 where userID = '".$userID."'";
 		$deleteSQL = "delete from tokenlist where token = '".$token."'";
-		var_dump($updateSQL);
-		var_dump($deleteSQL);
 		//取得処理でないため　受け取ることはしない
 		$mysql->QuickQuery($updateSQL);
 		//トークン削除
@@ -43,8 +43,6 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 		$result = false;
 	}
 	$mysql->Commit();
-	
-
 }
 //仮登録
 else
@@ -63,6 +61,8 @@ else
 
 	//update文
 	$SQL = "insert into  userlist values(:userID,:pass,:name,:postalcode,:pref,:city ,:addr1,:addr2,:sex,:tel,:beef,:vegetable,:fish ,0,now(),NULL)";
+	//トークン追加文
+	$TokenSQL = "insert into tokenlist values(:token,:userID)";
 
 	foreach( $userdata as &$data )
 	{
@@ -72,7 +72,7 @@ else
 		}
 	}
 
-	//パラメータ
+	//DB用パラメータ
 	$Param = array(
 		":userID"=>$userdata["userID"],
 		":pass"=>$userdata["pass"],
@@ -88,58 +88,48 @@ else
 		":vegetable"=>$userdata["vegetable"],
 		":fish"=>$userdata["fish"]
 	);
-	var_dump($Param);
-	$TokenSQL = "insert into tokenlist values(:token,:userID)";
-
 
 	try
 	{
-		$token = GetOnlyOneTokenMySQL("localhost","webuser","user","website","tokenlist","token");
 		$mysql = new MyPDOClass();
 		$mysql->ConnectSQL("MYSQL","localhost","webuser","user","website");
 		$mysql->Transaction();	//トランザクション　始め
 		$mysql->PrepareQuery($SQL);
 		$mysql->Execute($Param);	//userlistテーブルに登録
 		
-		//トークンの登録
+		//DBに登録されているトークンとかぶらないトークンを生成する
+		$token = GetOnlyOneTokenMySQL("localhost","webuser","user","website","tokenlist","token");
+		//トークンの登録用SQLを渡す
 		$mysql->PrepareQuery($TokenSQL);
 
+		//トークンの登録
 		if( !$mysql->Execute(array(":token"=>$token,":userID"=>$userdata["userID"])) )
 		{
 			echo "Execute エラー";
+			$mysql->RollBack();
+			exit;
 		}
-
 		
-		//ログイン時のユーザID(メアド)が更新したユーザIDと違う場合
-		//変更したメアドにメールを送る
-		$result = true;
-		if(1)
+		$result = true;		//HTML出力用フラグ
+		//本登録用メールを送る
+		$Title = "ユーザ仮登録";
+		$str = "リンクをクリックすると本登録完了になります。\nhttp://192.168.198.129/training/moc/userregistrydone.php?ID=".$token;
+		$header = "From: y-sasajima@systemzeus.co.jp";
+		mb_language('ja');
+		mb_internal_encoding("UTF-8");	
+		if( !mb_send_mail($userdata["userID"],$Title,$str,$header))
 		{
-		//	header('Content-Type: text/html; charset=UTF-8');
-		//	header('Content_Language: ja');
-			$Title = "ユーザ仮登録";
-			$str = "リンクをクリックすると本登録完了になります。\nhttp://192.168.198.129/training/moc/userregistrydone.php?ID=".$token;
-			$header = "From: y-sasajima@systemzeus.co.jp";
-			mb_language('ja');
-			mb_internal_encoding("UTF-8");	
-			if( !mb_send_mail($userdata["userID"],$Title,$str,$header))
-			{
-				echo "first";
-				$mysql->RollBack();
-				$result = false;
-				exit;
-			}
+			echo "first";
+			$mysql->RollBack();
+			$result = false;
+			exit;
 		}
 
 		//正常終了した場合コミットする
-		if( $result )
-		{
-			$mysql->Commit();		//トランザクション　終わり
-		}
+		$mysql->Commit();		//トランザクション　終わり
 
 		//セッションの更新と余計なデータを削除する
 		unset($_SESSION["userdata"]);
-		unset($_SESSION["userpage"]);
 		session_destroy();
 	}
 	catch( PDOException $e )

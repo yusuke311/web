@@ -3,6 +3,7 @@
 	require_once("./library.php");
 	session_start();
 
+	//管理者ID
 	$adminID 	= "admin";
 	$adminpass		= "suez";
 
@@ -10,6 +11,7 @@
 	$pass;
 	$failed = false;
 
+	//ログアウト処理を行う
 	if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	{
 		if( isset($_GET["logout"]) )
@@ -27,22 +29,24 @@
 		}
 	}
 
+	//ユーザ認証を行う
 	if($_SERVER["REQUEST_METHOD"] == "POST" )
 	{
 		$userID = $_POST["userID"];
 		$pass	= $_POST["pass"];
 
-		//管理者と一致していたら管理者ページへ飛ばす
+		//管理者と一致していたら管理者ページへ遷移する
 		if( $userID == $adminID && $adminpass == $pass )
 		{
 			session_start();
 			session_regenerate_id(true);
 			$_SESSION["admin"] = true;	
+			unset($_SESSION["userID"]);
 			header("Location: admin.php");
 			exit;
 		}
 
-
+		//ユーザと一致しているか調べる
 		try
 		{
 			$mysql = new MyPDOClass();
@@ -53,7 +57,8 @@
 				echo "Executeエラー";
 			}
 		
-			//戻り値が真 == userが見つかった時
+			//userが存在した場合
+			//ログイン時刻を更新しユーザページへ遷移する
 			if( $mysql->fetch_num() )
 			{
 				$mysql->PrepareQuery("update userlist set lastlogindate = now() where userID = :userID");
@@ -64,12 +69,11 @@
 				session_start();
 				session_regenerate_id(true);
 				$_SESSION["userID"] = $userID;	
+				unset($_SESSION["admin"]);	
 				header("Location: user.php");		
 				exit;
 			}
-
 			$failed = true;	
-
 		}
 		catch(PDOException $e)
 		{
@@ -87,35 +91,29 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- BootstrapのCSS-->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<!-- jQuery読み込み -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- BootstrapのJS読み込み -->
 	<script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div class="center-block">
-		<div>
-			<div class="row">
-				<!-- <div class="col-xs-6 col-xs-offset-3 text-center" style="background-color:#FF4401;padding:30px 5px;"> -->
+		<div class="row">
 			<div class="col-xs-6 col-xs-offset-3 text-center" >
 				<div class="row">
 					<div class="col-xs-2 col-xs-offset-6 text-right">
 						<a href="userregistry.php">新規登録</a>
 					</div>
 				</div>
-<h1 >ログイン</h1>
+				<h1>ログイン</h1>
 				<form method="POST" action="login.php">
-				<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが一致しません</font>';?>
+					<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが一致しません</font>';?>
 					<p >ユーザID</p>
 					<input type="TEXT" name="userID" style="margin-bottom:10px;"/><br>
 					<p >パスワード</p>
 					<input type="PASSWORD" name="pass"/><br>
 					<button type="submit" style="margin-top:10px" class="btn-default">ログイン</button>
 				</form>
-
 			</div>
 		</div>
-				</div>
 	</div>
 </body>
 </html>
