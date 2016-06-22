@@ -120,7 +120,7 @@ input
 			<div id="pass">パスワード</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
 			</div>
 			<div class="form-group">
-			<div id="name">氏名</div><br><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
+			<div id="name">氏名</div><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
 			</div>
 			<div class="form-group">
 					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>"maxlength="8" />
