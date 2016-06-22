@@ -18,18 +18,17 @@ if( $_SERVER["REQUEST_METHOD"] == "POST" )
 	$searchname = $_POST["searchname"];
 }
 
-//ユーザリスト情報テーブル
+//ユーザ情報テーブル
 $userlist = array();
 
 $SQL = "select userID , name , registtype , registdate , lastlogindate from userlist";
 $Param = array();
-//検索ワードが入力されていたら条件を追加する
 if( $searchID != NULL )
 {
-	$SQL .= " where userID LIKE :userID";
-	$searchIDstr = "%".$searchID."%";
-	$Param = array(":userID"=>$searchIDstr); 
+	$SQL .= "where userID = :userID";
+	$Param = array(":userID",$searchID); 
 }
+
 try
 {
 	$mysql = new MyPDOClass();
@@ -88,20 +87,11 @@ catch( PDOException $e  )
         }
 }
 </style>
-<title>ユーザ一覧</title>
 </head>
 <body>
 <a href="login.php?logout">ログアウト</a>
 <div class="container">
 <h1 class="page-header">ユーザリスト</h1>
-<form method="POST" action="admin.php" >
-	<div class="form-group">
-		ユーザID<input type="TEXT" name="searchID" maxlength="64"/>
-		氏名<input type="TEXT" name="searchname" maxlength="64"/>
-			<input type="SUBMIT"  class="btn btn-primary" value="検索" /><br>
-	</div>
-</form>
- 
 <table class="table" >
 <tr>
 <th>ログインID</th>

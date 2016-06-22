@@ -13,14 +13,9 @@ if( !isset($_SESSION["userdata"]) )
 
 //送られたjsonデータを変数に入れる
 $userdata = json_decode($_SESSION["userdata"],true);
-foreach( $userdata as &$var )
-{
-	$var = htmlspecialchars_decode($var,ENT_QUOTES);
-}
+
 //update文
 $SQL = "update userlist set	userID = :userID,password = :pass,name = :name,postal = :postalcode,pref = :pref,city = :city ,addr1 = :addr1,addr2 = :addr2,sex = :sex,tel = :tel,beef = :beef,vegetable = :vegetable,fish = :fish where userID = :beforeUserID";
-
-
 
 //DB更新用のパラメータ
 $Param = array(
@@ -90,13 +85,12 @@ catch( PDOException $e )
 <!-- BootstrapのJS読み込み -->
 <script src="js/bootstrap.min.js"></script>
 <style>
-@media (min-width: 500px) {
+@media (min-width: 300px) {
         .container {
-          max-width: 500px;
+          max-width: 300px;
         }
 }
 </style>
-<title>更新完了</title>
 </head>
 <body>
 	<div class="container">

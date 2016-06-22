@@ -93,14 +93,6 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- BootstrapのJS読み込み -->
 	<script src="js/bootstrap.min.js"></script>
-<style>
-@media (min-width: 300px) {
-        .container {
-          max-width: 300px;
-        }
-}
-</style>
-<title>ログイン</title>
 </head>
 <body>
 	<div class="center-block">
@@ -111,21 +103,17 @@
 						<a href="userregistry.php">新規登録</a>
 					</div>
 				</div>
+				<h1>ログイン</h1>
+				<form method="POST" action="login.php">
+					<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが一致しません</font>';?>
+					<p >ユーザID</p>
+					<input type="TEXT" name="userID" style="margin-bottom:10px;"/><br>
+					<p >パスワード</p>
+					<input type="PASSWORD" name="pass"/><br>
+					<button type="submit" style="margin-top:10px" class="btn-default">ログイン</button>
+				</form>
 			</div>
 		</div>
-	</div>
-	<div class="container">
-		<h1 class="page-header">ログイン</h1>
-		<form method="POST" action="login.php">
-			<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが一致しません</font>';?>
-			<div class="form-group">
-				ユーザID<input type="TEXT" name="userID" class="form-control" maxlength="64" /><br>
-			</div>
-			<div class="form-group">
-				パスワード<input type="PASSWORD" class="form-control" maxlength="32" pattern="^[0-9A-Za-z]+$"  name="pass"/><br>
-			</div>
-			<button type="submit" class="btn btn-primary form-control">ログイン</button>
-		</form>
 	</div>
 </body>
 </html>

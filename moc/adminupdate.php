@@ -13,6 +13,10 @@ if( !isset($_SESSION["userdata"]) )
 
 //送られたjsonデータを変数に入れる
 $userdata = json_decode($_SESSION["userdata"],true);
+foreach( $userdata as &$var )
+{
+	$var = htmlspecialchars_decode( $var , ENT_QUOTES );
+}
 
 //update文
 $SQL = "update userlist set	userID = :userID,password = :pass,name = :name,postal = :postalcode,pref = :pref,city = :city ,addr1 = :addr1,addr2 = :addr2,sex = :sex,tel = :tel,beef = :beef,vegetable = :vegetable,fish = :fish  , registtype = :registtype where userID = :beforeUserID";
@@ -35,7 +39,6 @@ $Param = array(
 	":beforeUserID"=>$_SESSION["userID_admin"],
 	":registtype"=>$userdata["registtype"]
 );
-var_dump($Param);
 
 try
 {
@@ -48,24 +51,8 @@ try
 	//ログイン時のユーザID(メアド)が更新したユーザIDと違う場合
 	//変更したメアドにメールを送る
 	$result = true;			//成功したかのフラグ
-	$mailupdate = false;	//メールアドレスが更新されたかのフラグi
-	/*
-	if( $_SESSION["userID_admin"] != $userdata["userID"] )
-	{
-		$Title = "ユーザ更新情報";
-		$str = "メールアドレスを変更しました。";
-		$header = "From: y-sasajima@systemzeus.co.jp";
-		mb_language('ja');
-		mb_internal_encoding("UTF-8");	
-		if( !mb_send_mail($userdata["userID"],$Title,$str,$header))
-		{
-			$mysql->RollBack();
-			$result = false;
-			exit;
-		}
-		$mailupdate = true;
-	}
-	 */
+	$mailupdate = false;	//メールアドレスが更新されたかのフラグ
+	
 	//正常終了した場合コミットする
 	if( $result )
 	{
@@ -95,6 +82,7 @@ catch( PDOException $e )
         }
 }
 </style>
+<title>更新</title>
 </head>
 <body>
 	<div class="container">

@@ -3,34 +3,24 @@ require_once("./sqlclass.php");
 require_once("./userdataclass.php");
 
 session_start();
-
-
-//管理者でないまたは
-//ユーザがセットされずかつPOSTされていない場合
-if($_SESSION["admin"] == false || ( isset($_SESSION["userID_admin"]) == false && $_SERVER["REQUEST_METHOD"] != "POST" ) )
+//ユーザIDがセットされていない場合ログイン画面に遷移する
+if(!isset($_SESSION["userID"]))
 {
-	header("Location: ./admin.php");
+	header("Location: ./login.php");
 	exit;
 }
 
-//編集されるユーザが格納されていない場合格納する
-if( isset($_SESSION["userID_admin"]) == false )
-{
-	//送られたユーザIDをセッションに記憶する
-	//$_SESSION["userID"]はユーザページで使用しているため重複を避けるために別の名前を使用する
-	$_SESSION["userID_admin"] = htmlspecialchars_decode($_POST["userID"],ENT_QUOTES);
-}
+$userID = $_SESSION["userID"];
 $userdata = new UserData();
 
 //DBへ接続
 $userdata->SetMySQLData("localhost","webuser","user","website");
-if( !$userdata->GetUserDataToMySQL($_SESSION["userID_admin"]) )
+if( !$userdata->GetUserDataToMySQL($userID) )
 {
 	echo "存在しない不正なユーザです";
 }
 //ユーザデータを取得する
 $data = $userdata->GetUserData();
-
 ?>
 <html>
 <head>
@@ -117,35 +107,35 @@ input
 </script>
 
 </head>
-<body>
-<a href="admin.php">ユーザ一覧に戻る</a>
+<body class="no-thank-yu">
+<a href="login.php?logout">ログアウト</a>
 	<div class="container">
 		<h1 class="page-header">ユーザページ</h1>	
-		<form method="POST" name="userdata" action="adminupdatecheck.php" onSubmit="return ParamCheck()">
+		<form method="POST" name="userdata" action="userupdatecheck.php" onSubmit="return ParamCheck()">
 			<div class="form-group">
-			<div id="userID"> ユーザID</div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
+			<div id="userID"> ユーザID</div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>"/><br>
 			</div>
 			<div class="form-group">
-			<div id="pass">パスワード</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
+			<div id="pass">パスワード</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>"/><br>
 			</div>
 			<div class="form-group">
-			<div id="name">氏名</div><br><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
+			<div id="name">氏名</div><br><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" /><br>
 			</div>
 			<div class="form-group">
-					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>"maxlength="8" />
+					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>" />
 					<input type="button" class="btn btn-default"name="autoaddress" value="自動入力" onclick="Autopostal()"><br>
 			</div>
 			<div class="form-group">
-					都道府県<br><input type="TEXT" class="form-control" name="pref" value="<?php echo $data['pref'];?>" maxlength="8"/><br>
+					都道府県<br><input type="TEXT" class="form-control" name="pref" value="<?php echo $data['pref'];?>"/><br>
 			</div>
 			<div class="form-group">
-					市区町村<br><input type="TEXT" class="form-control" name="city" value="<?php echo $data['city'];?>" maxlength="16"/><br>
+					市区町村<br><input type="TEXT" class="form-control" name="city" value="<?php echo $data['city'];?>"/><br>
 			</div>
 			<div class="form-group">
-					住所1<br><input type="TEXT" class="form-control" name="addr1" value="<?php echo $data['addr1'];?>" maxlength="128"/><br>
+					住所1<br><input type="TEXT" class="form-control" name="addr1" value="<?php echo $data['addr1'];?>"/><br>
 			</div>
 			<div class="form-group">
-					住所2<br><input type="TEXT" class="form-control" name="addr2" value="<?php echo $data['addr2'];?>" maxlength="128"/><br>
+					住所2<br><input type="TEXT" class="form-control" name="addr2" value="<?php echo $data['addr2'];?>"/><br>
 			</div>
 
 
@@ -155,7 +145,7 @@ input
 					<input type="RADIO" class="radio-inline" name="sex" value="0" <?php if($data['sex'] == 0 )echo "checked='checked'";?>/>未回答&nbsp;<br>
 			</div>
 			<div class="form-group">
-					電話番号<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" maxlength="11" value="<?php echo $data['tel'];?>" />
+					電話番号<br><input type="TEXT"  class="form-control" name="tel" pattern="^([a-zA-Z0-9]{10,})$" maxlength="11" value="<?php echo $data['tel'];?>" />
 			</div>
 			<div class="form-group">
 					好きなモノは何ですか?<br>
@@ -164,19 +154,12 @@ input
 					魚<input  type="CHECKBOX" class="check-inline" name="like[]" value="fish" <?php if($data['fish'] ==1 )echo "checked='checked'";?>/>
 			</div>
 			<div class="form-group">
-					登録状態<br>
-					<input type="RADIO" class="radio-inline" name="registtype" value="0" <?php if($data['registtype'] == 0) echo "checked='checked'";?>/>仮登録
-					<input type="RADIO" class="radio-inline" name="registtype" value="1" <?php if($data['registtype'] == 1) echo "checked='checked'";?>/>本登録
-					<input type="RADIO" class="radio-inline" name="registtype" value="2" <?php if($data['registtype'] == 2) echo "checked='checked'";?>/>停止
+					<input type="SUBMIT"  class="form-control" value="更新"  /><br>
 			</div>
-			<div class="form-group">
-				<input type="SUBMIT"  class="btn btn-primary btn-block" value="更新"  /><br>
-			</div>
-		</form>
+				</form>
 			</div>
 		</div>
 	</div>
 </body>
 </html>
-
 

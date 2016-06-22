@@ -1,0 +1,9 @@
+DirectoryIndex login.php index.php index.htm index.html .ht
+#Options -Indexes
+Options +FollowSymLinks
+
+# .php を省略する設定例
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^([^.]+)$ $1.php [NC,L]
+

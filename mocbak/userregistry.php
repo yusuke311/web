@@ -89,29 +89,29 @@ input
 		<h1 class="page-header">ユーザ登録</h1>	
 		<form method="POST" name="userdata" action="userregistrycheck.php" onSubmit="return ParamCheck()">
 			<div class="form-group">
-			<div id="userID"> ユーザID</div><input type="TEXT" class="form-control" name="userID" maxlength="64" /><br>
+			<div id="userID"> ユーザID</div><input type="TEXT" class="form-control" name="userID" /><br>
 			</div>
 			<div class="form-group">
-			<div id="pass">パスワード</div><input type="PASSWORD" class="form-control" name="pass" maxlength="32"/><br>
+			<div id="pass">パスワード</div><input type="PASSWORD" class="form-control" name="pass"/><br>
 			</div>
 			<div class="form-group">
-			<div id="name">氏名</div><br><input type="TEXT" class="form-control" name="name"maxlength="128"/><br>
+			<div id="name">氏名</div><br><input type="TEXT" class="form-control" name="name"/><br>
 			</div>
 			<div class="form-group">
-					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode" maxlength="8"/>
+					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode" />
 					<input type="button" class="btn btn-default"name="autoaddress" value="自動入力" onclick="Autopostal()"><br>
 			</div>
 			<div class="form-group">
-					都道府県<br><input type="TEXT" class="form-control" name="pref"i maxlength="8"/><br>
+					都道府県<br><input type="TEXT" class="form-control" name="pref"/><br>
 			</div>
 			<div class="form-group">
-					市区町村<br><input type="TEXT" class="form-control" name="city" maxlength="16"/><br>
+					市区町村<br><input type="TEXT" class="form-control" name="city"/><br>
 			</div>
 			<div class="form-group">
-					住所1<br><input type="TEXT" class="form-control" name="addr1" maxlength="128"/><br>
+					住所1<br><input type="TEXT" class="form-control" name="addr1"/><br>
 			</div>
 			<div class="form-group">
-					住所2<br><input type="TEXT" class="form-control" name="addr2" maxlength="128"/><br>
+					住所2<br><input type="TEXT" class="form-control" name="addr2"/><br>
 			</div>
 
 
@@ -121,13 +121,13 @@ input
 					<input type="RADIO" class="radio-inline" name="sex" value="0" checked="checked" />未回答&nbsp;<br>
 			</div>
 			<div class="form-group">
-					電話番号(半角数字のみ)<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" maxlength="11" />
+					電話番号<br><input type="TEXT"  class="form-control" name="tel" />
 			</div>
 			<div class="form-group">
 					好きなモノは何ですか?<br>
-					肉<input  type="CHECKBOX" class="check-inline" name="like[]" value="beef"/>
-					野菜<input  type="CHECKBOX" class="check-inline" name="like[]" value="vegetable"/>
-					魚<input  type="CHECKBOX" class="check-inline" name="like[]" value="fish"/>
+					肉<input  type="CHECKBOX" class="check-inline" name="like[]"/>
+					野菜<input  type="CHECKBOX" class="check-inline" name="like[]"/>
+					魚<input  type="CHECKBOX" class="check-inline" name="like[]"/>
 			</div>
 			<div class="form-group">
 					<input type="SUBMIT"  class="form-control" value="登録"  /><br>

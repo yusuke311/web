@@ -45,6 +45,7 @@ function GetUserIDToTokenMySQL($host,$user,$pass,$dbname,$tablename,$token)
 
 	try
 	{
+		var_dump($SQL);
 		$mysql->PrepareQuery($SQL);
 		if( !$mysql->Execute(array(":token"=>$token)) )
 		{

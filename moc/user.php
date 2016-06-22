@@ -20,7 +20,8 @@ if( !$userdata->GetUserDataToMySQL($userID) )
 	echo "存在しない不正なユーザです";
 }
 //ユーザデータを取得する
-$data = $userdata->GetUserData();
+
+$data = $userdata->GetUserData( true );
 ?>
 <html>
 <head>
@@ -113,29 +114,29 @@ input
 		<h1 class="page-header">ユーザページ</h1>	
 		<form method="POST" name="userdata" action="userupdatecheck.php" onSubmit="return ParamCheck()">
 			<div class="form-group">
-			<div id="userID"> ユーザID</div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>"/><br>
+			<div id="userID"> ユーザID</div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
 			</div>
 			<div class="form-group">
-			<div id="pass">パスワード</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>"/><br>
+			<div id="pass">パスワード</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
 			</div>
 			<div class="form-group">
-			<div id="name">氏名</div><br><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" /><br>
+			<div id="name">氏名</div><br><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
 			</div>
 			<div class="form-group">
-					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>" />
+					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>"maxlength="8" />
 					<input type="button" class="btn btn-default"name="autoaddress" value="自動入力" onclick="Autopostal()"><br>
 			</div>
 			<div class="form-group">
-					都道府県<br><input type="TEXT" class="form-control" name="pref" value="<?php echo $data['pref'];?>"/><br>
+					都道府県<br><input type="TEXT" class="form-control" name="pref" value="<?php echo $data['pref'];?>" maxlength="8"/><br>
 			</div>
 			<div class="form-group">
-					市区町村<br><input type="TEXT" class="form-control" name="city" value="<?php echo $data['city'];?>"/><br>
+					市区町村<br><input type="TEXT" class="form-control" name="city" value="<?php echo $data['city'];?>" maxlength="16"/><br>
 			</div>
 			<div class="form-group">
-					住所1<br><input type="TEXT" class="form-control" name="addr1" value="<?php echo $data['addr1'];?>"/><br>
+					住所1<br><input type="TEXT" class="form-control" name="addr1" value="<?php echo $data['addr1'];?>" maxlength="128"/><br>
 			</div>
 			<div class="form-group">
-					住所2<br><input type="TEXT" class="form-control" name="addr2" value="<?php echo $data['addr2'];?>"/><br>
+					住所2<br><input type="TEXT" class="form-control" name="addr2" value="<?php echo $data['addr2'];?>" maxlength="128"/><br>
 			</div>
 
 
@@ -145,7 +146,7 @@ input
 					<input type="RADIO" class="radio-inline" name="sex" value="0" <?php if($data['sex'] == 0 )echo "checked='checked'";?>/>未回答&nbsp;<br>
 			</div>
 			<div class="form-group">
-					電話番号<br><input type="TEXT"  class="form-control" name="tel" pattern="^([a-zA-Z0-9]{10,})$" maxlength="11" value="<?php echo $data['tel'];?>" />
+					電話番号<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" maxlength="11" value="<?php echo $data['tel'];?>" />
 			</div>
 			<div class="form-group">
 					好きなモノは何ですか?<br>

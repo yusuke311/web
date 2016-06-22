@@ -1,4 +1,5 @@
 <?php
+echo "EEEE";
 require_once("./sqlclass.php");
 require_once("./library.php");
 
@@ -57,10 +58,7 @@ else
 
 	//jsonデータを変数に入れる
 	$userdata = json_decode($_SESSION["userdata"],true);
-	foreach( $userdata as &$var )
-	{
-		$var = htmlspecialchars_decode($var,ENT_QUOTES);
-	}
+
 	//update文
 	$SQL = "insert into  userlist values(:userID,:pass,:name,:postalcode,:pref,:city ,:addr1,:addr2,:sex,:tel,:beef,:vegetable,:fish ,0,now(),NULL)";
 	//トークン追加文
@@ -130,7 +128,7 @@ else
 		//正常終了した場合コミットする
 		$mysql->Commit();		//トランザクション　終わり
 
-		//余計なデータを削除する
+		//セッションの更新と余計なデータを削除する
 		unset($_SESSION["userdata"]);
 		session_destroy();
 	}
@@ -155,7 +153,6 @@ else
         }
 }
 </style>
-<title>登録</title>
 </head>
 <body>
 	<div class="container">

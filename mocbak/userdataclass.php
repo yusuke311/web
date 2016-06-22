@@ -82,11 +82,7 @@ class UserData
 	{
 		if( $Sanitizing )
 		{
-			$this->Sanitizing();
-		}
-		else
-		{
-			$this->UnSanitizing();
+			return Sanitizing();
 		}
 		return $this->data; 
 	}
@@ -94,18 +90,7 @@ class UserData
 	//サニタイジング
 	private function Sanitizing()
 	{
-		foreach( $this->data as &$var )
-		{
-			$var = htmlspecialchars($var);
-		}
-	}
 
-	private function UnSanitizing()
-	{
-		foreach( $this->data as &$var )
-		{
-			$var = htmlspecialchars($var);
-		}
 	}
 
 }
