@@ -74,19 +74,19 @@ input
 		{
 			check = false;
 			var userID = document.getElementById("userID");
-			userID.innerHTML = "ユーザID※　<font color='red'>入力されていません</font>";
+			userID.innerHTML = "ユーザID<span class='text-danger'>※　入力されていません</span>";
 		}
 		if( document.userdata.pass.value == "" )
 		{
 			check = false;
 			var pass = document.getElementById("pass");
-			pass.innerHTML = "パスワード※　<font color='red'>入力されていません</font>";
+			pass.innerHTML = "パスワード<span class='text-danger'>※　入力されていません</span>";
 		}
 		if( document.userdata.name.value == "" )
 		{
 			check = false;
 			var name = document.getElementById("name");
-			name.innerHTML = "氏名※　<font color='red'>入力されていません</font>";
+			name.innerHTML = "氏名<span class='text-danger'>※　入力されていません</span>";
 		}
 
 		if( !check )
@@ -123,13 +123,13 @@ input
 		<h1 class="page-header">ユーザページ</h1>	
 		<form method="POST" name="userdata" action="adminupdatecheck.php" onSubmit="return ParamCheck()">
 			<div class="form-group">
-			<div id="userID"> ユーザID</div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
+			<div id="userID"> ユーザID<span class="text-danger">※</span></div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
 			</div>
 			<div class="form-group">
-			<div id="pass">パスワード</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
+			<div id="pass">パスワード<span class="text-danger">※</span></div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
 			</div>
 			<div class="form-group">
-			<div id="name">氏名</div><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
+			<div id="name">氏名<span class="text-danger">※</span></div><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
 			</div>
 			<div class="form-group">
 					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>"maxlength="8" />
