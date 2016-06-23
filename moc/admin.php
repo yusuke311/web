@@ -91,14 +91,14 @@ catch( PDOException $e  )
 <title>ユーザ一覧</title>
 </head>
 <body>
-<a href="login.php?logout">ログアウト</a>
+<a class="btn btn-link" href="login.php?logout" role="button">ログアウト</a>
 <div class="container">
 <h1 class="page-header">ユーザリスト</h1>
 <form method="POST" action="admin.php" >
-	<div class="form-group">
-		ユーザID<input type="TEXT" name="searchID" maxlength="64"/>
-		氏名<input type="TEXT" name="searchname" maxlength="64"/>
-			<input type="SUBMIT"  class="btn btn-primary" value="検索" /><br>
+	<div class="form-group form-inline">
+		ユーザID<input type="TEXT" name="searchID" class="form-control" maxlength="64"/>
+		氏名<input type="TEXT" name="searchname" class="form-control" maxlength="64"/>
+			<input type="SUBMIT"  class="btn btn-primary" class="form-control" value="検索" /><br>
 	</div>
 </form>
  
@@ -114,19 +114,19 @@ catch( PDOException $e  )
 <?php
 	foreach( $userlist as $user )
 	{
-		echo "<tr>";
-		echo "<td>".htmlspecialchars($user["userID"],ENT_QUOTES)."</td>";
-		echo "<td>".htmlspecialchars($user["name"])."</td>";
-		echo "<td>".$user["registtype"]."</td>";
-		echo "<td>".$user["registdate"]."</td>";
-		echo "<td>".$user["lastlogindate"]."</td>";
-		echo "<td>";
-		echo "<form method='POST'action='adminuser.php'>";
-		echo "<button type='submit' class='btn btn-primary' name='userID' value='".htmlspecialchars($user["userID"],ENT_QUOTES)."'>編集</button>";
-		echo "</td>";
-		echo "</tr>";
-	}
 ?>
+		<tr>
+		<td><?php echo htmlspecialchars($user["userID"],ENT_QUOTES) ?></td>
+		<td><?php echo htmlspecialchars($user["name"]) ?></td>
+		<td><?php echo $user["registtype"] ?></td>
+		<td><?php echo $user["registdate"] ?></td>
+		<td><?php echo $user["lastlogindate"] ?></td>
+		<td>
+		<form method="POST"  action="adminuser.php">
+		<button type="submit" class="btn btn-primary" name="userID" value="<?php echo htmlspecialchars($user["userID"],ENT_QUOTES) ?>">編集</button>
+		</td>
+		</tr>
+<?php } ?>
 </table>
 </div>
 </body>

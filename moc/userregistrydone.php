@@ -149,9 +149,9 @@ else
 <!-- BootstrapのJS読み込み -->
 <script src="js/bootstrap.min.js"></script>
 <style>
-@media (min-width: 300px) {
+@media (min-width: 500px) {
         .container {
-          max-width: 300px;
+          max-width: 500px;
         }
 }
 </style>

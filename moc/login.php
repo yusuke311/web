@@ -94,9 +94,9 @@
     <!-- BootstrapのJS読み込み -->
 	<script src="js/bootstrap.min.js"></script>
 <style>
-@media (min-width: 300px) {
+@media (min-width: 400px) {
         .container {
-          max-width: 300px;
+          max-width: 400px;
         }
 }
 </style>
@@ -107,8 +107,8 @@
 		<div class="row">
 			<div class="col-xs-6 col-xs-offset-3 text-center" >
 				<div class="row">
-					<div class="col-xs-2 col-xs-offset-6 text-right">
-						<a href="userregistry.php">新規登録</a>
+					<div class="col-xs-3 col-xs-offset-6 text-right">
+						<a class="btn btn-link" href="userregistry.php" rele="button">新規登録</a>	
 					</div>
 				</div>
 			</div>
@@ -116,6 +116,7 @@
 	</div>
 	<div class="container">
 		<h1 class="page-header">ログイン</h1>
+		<div class="well">
 		<form method="POST" action="login.php">
 			<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが一致しません</font>';?>
 			<div class="form-group">
@@ -126,6 +127,7 @@
 			</div>
 			<button type="submit" class="btn btn-primary form-control">ログイン</button>
 		</form>
+</div>
 	</div>
 </body>
 </html>
