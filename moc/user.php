@@ -45,9 +45,9 @@ input
 	margin-left: 2px;
 	padding:2px;
 }
-@media (min-width: 300px) {
+@media (min-width: 500px) {
         .container {
-          max-width: 300px;
+          max-width: 500px;
         }
 }
 </style>
@@ -109,9 +109,10 @@ input
 
 </head>
 <body>
-<a href="login.php?logout">ログアウト</a>
+<a class="btn btn-link" href="login.php?logout" role="button">ユーザページに戻る</a>
 	<div class="container">
 		<h1 class="page-header">ユーザページ</h1>	
+		<div class="well">
 		<p class="text-right text-danger">※は必須項目</p>
 		<form method="POST" name="userdata" action="userupdatecheck.php" onSubmit="return ParamCheck()">
 			<div class="form-group">
@@ -128,6 +129,7 @@ input
 					<input type="button" class="btn btn-default"name="autoaddress" value="自動入力" onclick="Autopostal()"><br>
 			</div>
 			<div class="form-group">
+			
 					都道府県<br><input type="TEXT" class="form-control" name="pref" value="<?php echo $data['pref'];?>" maxlength="8"/><br>
 			</div>
 			<div class="form-group">
@@ -156,9 +158,10 @@ input
 					魚<input  type="CHECKBOX" class="check-inline" name="like[]" value="fish" <?php if($data['fish'] ==1 )echo "checked='checked'";?>/>
 			</div>
 			<div class="form-group">
-					<input type="SUBMIT"  class="form-control" value="更新"  /><br>
+					<input type="SUBMIT"  class="form-control btn-primary" value="更新"  /><br>
 			</div>
 				</form>
+</div>
 			</div>
 		</div>
 	</div>

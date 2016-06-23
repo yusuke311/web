@@ -9,6 +9,7 @@ if($_SERVER["REQUEST_METHOD"] != "POST" )
 	exit;
 }
 
+$IDisUse = false;
 try
 {
 	//ユーザIDが変更されていたら
@@ -23,9 +24,7 @@ try
 		//重複していたらメッセージを出して終了
 		if( $num >= 1 )
 		{
-			echo "入力されたユーザ名がすでに存在します<br>";
-			echo "<a href='./user.php'>ユーザページに戻る</a>";
-			exit;
+			$IDisUse = true;
 		}
 	}
 }
@@ -114,6 +113,7 @@ function submitcancel()
 </head>
 <body>
 	<div class="container">
+		<?php if( $IDisUse == false ){ ?>
 		<h1 class="page-header">更新情報の確認</h1>
 		<table class="table">
 			<tr><td>ユーザID</td><td><?php echo htmlspecialchars($_POST["userID"]);?></td>
@@ -131,6 +131,11 @@ function submitcancel()
 			<button class="btn btn-primary" type="SUBMIT">更新</button>
 			<button class="btn" type="BUTTON" onclick="submitcancel()">キャンセル</button>
 		</form>
+		<?php } else { ?>
+		<h1 class="page-header">ユーザの重複</h1>
+		入力されたユーザ名がすでに存在します<br>
+		<a href='./user.php'>ユーザページに戻る</a>
+		<?php } ?>
 	</div>
 </body>
 

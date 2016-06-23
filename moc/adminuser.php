@@ -54,9 +54,9 @@ input
 	margin-left: 2px;
 	padding:2px;
 }
-@media (min-width: 300px) {
+@media (min-width: 500px) {
         .container {
-          max-width: 300px;
+          max-width: 500px;
         }
 }
 </style>
@@ -118,9 +118,10 @@ input
 
 </head>
 <body>
-<a href="admin.php">ユーザ一覧に戻る</a>
+<a class="btn btn-link" href="admin.php" role="button">ユーザ一覧に戻る</a>
 	<div class="container">
-		<h1 class="page-header">ユーザページ</h1>	
+		<h1 class="page-header">ユーザページ(管理者)</h1>	
+		<div class="well">
 		<form method="POST" name="userdata" action="adminupdatecheck.php" onSubmit="return ParamCheck()">
 			<div class="form-group">
 			<div id="userID"> ユーザID<span class="text-danger">※</span></div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
@@ -173,6 +174,7 @@ input
 				<input type="SUBMIT"  class="btn btn-primary btn-block" value="更新"  /><br>
 			</div>
 		</form>
+	</div>
 			</div>
 		</div>
 	</div>
