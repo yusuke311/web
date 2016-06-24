@@ -13,14 +13,13 @@ if( !isset($_SESSION["userdata"]) )
 
 //送られたjsonデータを変数に入れる
 $userdata = json_decode($_SESSION["userdata"],true);
+//json文が加工済みなので加工前に戻す
 foreach( $userdata as &$var )
 {
 	$var = htmlspecialchars_decode($var,ENT_QUOTES);
 }
 //update文
 $SQL = "update userlist set	userID = :userID,password = :pass,name = :name,postal = :postalcode,pref = :pref,city = :city ,addr1 = :addr1,addr2 = :addr2,sex = :sex,tel = :tel,beef = :beef,vegetable = :vegetable,fish = :fish where userID = :beforeUserID";
-
-
 
 //DB更新用のパラメータ
 $Param = array(
@@ -59,6 +58,7 @@ try
 		$header = "From: y-sasajima@systemzeus.co.jp";
 		mb_language('ja');
 		mb_internal_encoding("UTF-8");	
+		//失敗したらロールバックして終了
 		if( !mb_send_mail($userdata["userID"],$Title,$str,$header))
 		{
 			$mysql->RollBack();
@@ -79,7 +79,8 @@ try
 }
 catch( PDOException $e )
 {
-	echo "ERROR UPDATE".$e->getMessage();
+	//	echo "ERROR UPDATE".$e->getMessage();
+	$result = false;
 	$mysql->RollBack();
 }
 ?>

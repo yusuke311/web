@@ -4,7 +4,6 @@ require_once("./userdataclass.php");
 
 session_start();
 
-
 //管理者でないまたは
 //ユーザがセットされずかつPOSTされていない場合
 if($_SESSION["admin"] == false || ( isset($_SESSION["userID_admin"]) == false && $_SERVER["REQUEST_METHOD"] != "POST" ) )
@@ -26,11 +25,11 @@ $userdata = new UserData();
 $userdata->SetMySQLData("localhost","webuser","user","website");
 if( !$userdata->GetUserDataToMySQL($_SESSION["userID_admin"]) )
 {
-	echo "存在しない不正なユーザです";
+	header("Location: ./admin.php");
+	exit;
 }
 //ユーザデータを取得する
 $data = $userdata->GetUserData();
-
 ?>
 <html>
 <head>
@@ -76,16 +75,28 @@ input
 		<div class="well">
 		<form method="POST" name="userdata" action="adminupdatecheck.php" onSubmit="return ParamCheck()">
 			<div class="form-group">
-			<div id="userID"> ユーザID<span class="text-danger">※</span></div><input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
+				<div id="userID">
+					ユーザID<span class="text-danger">※</span>
+				</div>
+				<input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
 			</div>
 			<div class="form-group">
-			<div id="pass">パスワード<span class="text-danger">※</span></div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
+				<div id="pass">
+					パスワード<span class="text-danger">※</span>
+				</div>
+				<input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
 			</div>
 			<div class="form-group">
-			<div id="pass_re">パスワード<span class="text-danger">※</span></div><input type="PASSWORD" class="form-control" name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
+				<div id="pass_re">
+					パスワード(確認)<span class="text-danger">※</span>
+				</div>
+				<input type="PASSWORD" class="form-control" name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
 			</div>
 			<div class="form-group">
-			<div id="name">氏名<span class="text-danger">※</span></div><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
+				<div id="name">
+					氏名<span class="text-danger">※</span>
+				</div>
+				<input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
 			</div>
 			<div class="form-group">
 					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>"maxlength="8" />
@@ -103,8 +114,6 @@ input
 			<div class="form-group">
 					住所2<br><input type="TEXT" class="form-control" name="addr2" value="<?php echo $data['addr2'];?>" maxlength="128"/><br>
 			</div>
-
-
 			<div class="form-group">
 					性別<br><input type="RADIO" class="radio-inline" name="sex" value="1"<?php if($data['sex'] == 1 )echo "checked='checked'";?>>男&nbsp;
 					<input type="RADIO" class="radio-inline" name="sex" value="2"<?php if($data['sex'] == 2 )echo "checked='checked'";?>/>女&nbsp;
@@ -128,9 +137,7 @@ input
 			<div class="form-group">
 				<input type="SUBMIT"  class="btn btn-primary btn-block" value="更新"  /><br>
 			</div>
-		</form>
-	</div>
-			</div>
+			</form>
 		</div>
 	</div>
 </body>

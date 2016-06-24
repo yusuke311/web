@@ -8,6 +8,7 @@ $highgraderegistry;	//本登録かどうかのフラグ
 if( $_SERVER["REQUEST_METHOD"] == "GET" )
 {
 	$highgraderegistry = true;
+	//URLからトークンを取得する
 	$token = $_GET["ID"];
 
 	//トークンからユーザIDを取得する
@@ -27,7 +28,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 		$result = true;
 		$mysql->Transaction();	//トランザクション　始め
 
-		//本登録処理SQL プリペアにするべき
+		//本登録処理SQL プリペアにするべき?
 		$updateSQL = "update userlist set registtype = 1 where userID = '".$userID."'";
 		$deleteSQL = "delete from tokenlist where token = '".$token."'";
 		//取得処理でないため　受け取ることはしない
@@ -38,7 +39,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	catch( PDOException $e )
 	{
 		$mysql->RollBack();
-		echo "DBERROR -> ".$e->getMessage();
+	//	echo "DBERROR -> ".$e->getMessage();
 		$result = false;
 	}
 	$mysql->Commit();

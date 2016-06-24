@@ -13,6 +13,7 @@ if( !isset($_SESSION["userdata"]) )
 
 //送られたjsonデータを変数に入れる
 $userdata = json_decode($_SESSION["userdata"],true);
+//jsonように値が変換されているため元の文に戻す
 foreach( $userdata as &$var )
 {
 	$var = htmlspecialchars_decode( $var , ENT_QUOTES );
@@ -47,12 +48,12 @@ try
 	$mysql->Transaction();	//トランザクション　始め
 	$mysql->PrepareQuery($SQL);
 	$mysql->Execute($Param);
+
 	
 	//ログイン時のユーザID(メアド)が更新したユーザIDと違う場合
 	//変更したメアドにメールを送る
 	$result = true;			//成功したかのフラグ
-	$mailupdate = false;	//メールアドレスが更新されたかのフラグ
-	
+ 
 	//正常終了した場合コミットする
 	if( $result )
 	{
@@ -103,14 +104,10 @@ catch( PDOException $e )
 		if( $result )
 		{
 			echo "ユーザ情報を更新しました。";
-			if( $mailupdate  )
-			{
-				echo "変更したメールアドレスにメールが届きます。";
-			}
 		}
 		else
 		{
-			echo "メールの送信に失敗しました。<br>ユーザデータは更新前に戻ります<br>";
+			echo "ユーザの更新に失敗しました。<br>ユーザデータは更新前に戻ります<br>";
 		}
 		?>
 	</p>

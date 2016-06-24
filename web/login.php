@@ -6,10 +6,11 @@
 	//管理者ID
 	$adminID 	= "admin";
 	//管理者パス
-	$adminpass		= "suez";
+	$adminpass	= "suez";
 
 	$userID;
 	$pass;
+	//ユーザログインに失敗したかのフラグ
 	$failed = false;
 
 	//ログアウト処理を行う
@@ -27,6 +28,7 @@
 			}
 			session_destroy();
 			header("Location: ./login.php");
+			exit;
 		}
 	}
 
@@ -55,7 +57,8 @@
 			$mysql->PrepareQuery("select * from userlist where userID = :userID and password = :password and registtype = 1");
 			if( !$mysql->Execute(array(":userID"=>$userID,":password"=>$pass)) )
 			{
-				echo "Executeエラー";
+				//	echo "Executeエラー";
+				exit;
 			}
 		
 			//userが存在した場合
@@ -78,7 +81,8 @@
 		}
 		catch(PDOException $e)
 		{
-			echo "エラー".$e->getMessage();
+		//	echo "エラー".$e->getMessage();
+			exit;
 		}
 
 	}

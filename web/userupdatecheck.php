@@ -8,7 +8,7 @@ if($_SERVER["REQUEST_METHOD"] != "POST" )
 	header("Location: user.php");
 	exit;
 }
-
+//重複フラグ
 $IDisUse = false;
 try
 {
@@ -34,7 +34,6 @@ catch(PDOException $e)
 }
 
 //最初に０で初期化して、送られたチェックボックスの名前を調べる
-//未選択時バグあり
 $beef = 0;
 $vegetable = 0;
 $fish = 0;
