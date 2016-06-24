@@ -5,6 +5,7 @@
 
 	//管理者ID
 	$adminID 	= "admin";
+	//管理者パス
 	$adminpass		= "suez";
 
 	$userID;
