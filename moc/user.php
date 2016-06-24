@@ -57,59 +57,11 @@ input
 <script src="js/bootstrap.min.js"></script>
 <!-- jQuery読み込み 郵便番号取得に必要 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript">
-	function ParamCheck()
-	{
-		var check = true;
-		if( document.userdata.userID.value == "" )
-		{
-			check = false;
-			var userID = document.getElementById("userID");
-			userID.innerHTML = "ユーザID<span class='text-danger'>※　入力されていません</span>";
-		}
-		if( document.userdata.pass.value == "" )
-		{
-			check = false;
-			var pass = document.getElementById("pass");
-			pass.innerHTML = "パスワード<span class='text-danger'>※　入力されていません</span>";
-		}
-		if( document.userdata.name.value == "" )
-		{
-			check = false;
-			var name = document.getElementById("name");
-			name.innerHTML = "氏名<span class='text-danger'>※　入力されていません</span>";
-		}
-
-		if( !check )
-		{
-			alert("必要項目が入力されていません");
-		}	
-
-		return check;
-	}		
-	function Autopostal()
-	{
-		$.post("getpostal.php",
-			{ "postalcode": document.userdata.postalcode.value },
-			function(data)
-			{
-				if(!data.status)
-				{
-					return false;
-				}
-
-				document.userdata.pref.value =  data.pref;
-				document.userdata.city.value = data.city;
-				document.userdata.addr1.value = data.addr;
-			},
-			"json"
-		);
-	}
-</script>
-
+<!-- 入力値チェック -->
+<script type="text/javascript" src="checkfunc.js"></script>
 </head>
 <body>
-<a class="btn btn-link" href="login.php?logout" role="button">ユーザページに戻る</a>
+<a class="btn btn-link" href="login.php?logout" role="button">ログアウト</a>
 	<div class="container">
 		<h1 class="page-header">ユーザページ</h1>	
 		<div class="well">
@@ -120,6 +72,9 @@ input
 			</div>
 			<div class="form-group">
 			<div id="pass">パスワード<span class="text-danger">※</span></div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
+			</div>
+			<div class="form-group">
+			<div id="pass_re">パスワード(確認)<span class="text-danger">※</span></div><input type="PASSWORD" class="form-control"  name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
 			</div>
 			<div class="form-group">
 			<div id="name">氏名<span class="text-danger">※</span></div><input type="TEXT" class="form-control" name="name" value="<?php echo $data['name'];?>" maxlength="128"/><br>
