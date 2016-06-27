@@ -30,6 +30,20 @@ if( $searchID != NULL )
 	$searchIDstr = "%".$searchID."%";
 	$Param = array(":userID"=>$searchIDstr); 
 }
+if( $searchname != NULL )
+{
+	if( $searchID != NULL  )
+	{
+		$SQL .= " and name LIKE :name ";
+		$Param[":name"] = "%".$searchname."%";
+	}
+	else
+	{
+		$SQL .= " where name LIKE :name";
+		$searchIDstr = "%".$searchname."%";
+		$Param = array(":name"=>$searchIDstr); 
+	}
+}
 try
 {
 	$mysql = new MyPDOClass();
