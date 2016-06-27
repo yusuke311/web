@@ -8,6 +8,8 @@ if($_SERVER["REQUEST_METHOD"] != "POST" )
 	header("Location: user.php");
 	exit;
 }
+//重複フラグ
+$IDisUse = false;
 
 $mysql =  new MyPDOClass();
 $mysql->ConnectSQL("MYSQL","localhost","webuser","user","website");
@@ -15,9 +17,7 @@ $mysql->PrepareQuery("select * from userlist where userID = :userID");
 $num = $mysql->GetDataCountToPrerare(array(":userID"=>$_POST["userID"]));
 if( $num >= 1 )
 {
-	echo "入力されたユーザ名がすでに存在します<br>";
-	echo "<a href='./userregistry.php'>登録ページに戻る</a>";
-	exit;
+	$IDisUse = true;
 }
 session_regenerate_id(true);
 
@@ -99,6 +99,7 @@ function submitcancel()
 </head>
 <body>
 	<div class="container">
+		<?php if( $IDisUse == false ){ ?>
 		<h1 class="page-header">登録情報の確認</h1>
 		<table class="table">
 			<tr><td>ユーザID</td><td><?php echo htmlspecialchars($_POST["userID"],ENT_QUOTES);?></td>
@@ -116,6 +117,11 @@ function submitcancel()
 			<button class="btn btn-primary" type="SUBMIT">登録</button>
 			<button class="btn" type="BUTTON" onclick="submitcancel()">キャンセル</button>
 		</form>
+		<?php } else { ?>
+		<h1 class="page-header">ユーザの重複</h1>
+		入力されたユーザ名がすでに存在します<br>
+		<a href='./userregistry.php'>ユーザ登録に戻る</a>
+		<?php } ?>
 	</div>
 </body>
 
