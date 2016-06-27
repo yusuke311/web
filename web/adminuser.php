@@ -78,7 +78,7 @@ input
 				<div id="userID">
 					ユーザID<span class="text-danger">※</span>
 				</div>
-				<input type="TEXT" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
+				<input type="EMAIL" class="form-control" name="userID" value="<?php echo $data['userID']; ?>" maxlength="64"/><br>
 			</div>
 			<div class="form-group">
 				<div id="pass">
