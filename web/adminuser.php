@@ -14,7 +14,7 @@ if($_SESSION["admin"] == false || ( isset($_SESSION["userID_admin"]) == false &&
 
 //編集されるユーザが格納されていない場合格納する
 if( isset($_SESSION["userID_admin"]) == false )
-
+{
 	//送られたユーザIDをセッションに記憶する
 	//$_SESSION["userID"]はユーザページで使用しているため重複を避けるために別の名前を使用する
 	$_SESSION["userID_admin"] = htmlspecialchars_decode($_POST["userID"],ENT_QUOTES);
