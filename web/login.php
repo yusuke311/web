@@ -123,7 +123,7 @@
 		<h1 class="page-header">ログイン</h1>
 		<div class="well">
 		<form method="POST" action="login.php">
-			<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが一致しません</font>';?>
+			<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが間違っています。</font>';?>
 			<div class="form-group">
 				ユーザID<input type="TEXT" name="userID" class="form-control" maxlength="64" /><br>
 			</div>
