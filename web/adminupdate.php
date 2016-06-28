@@ -1,18 +1,20 @@
 <?php
 
 require_once("./sqlclass.php");
+require_once("./library.php");
 
 session_start();
 
 //データがない場合ユーザページに遷移する
 if( !isset($_SESSION["userdata"]) )
 {
-	header("Location: user.php");
+	header("Location: adminiuser.php");
 	exit;
 }
 
 //送られたjsonデータを変数に入れる
 $userdata = json_decode($_SESSION["userdata"],true);
+//jsonように値が変換されているため元の文に戻す
 foreach( $userdata as &$var )
 {
 	$var = htmlspecialchars_decode( $var , ENT_QUOTES );
@@ -42,22 +44,21 @@ $Param = array(
 
 try
 {
+	$result = true;
 	$mysql = new MyPDOClass();
 	$mysql->ConnectSQL("MYSQL","localhost","webuser","user","website");
 	$mysql->Transaction();	//トランザクション　始め
 	$mysql->PrepareQuery($SQL);
 	$mysql->Execute($Param);
-	
-	//ログイン時のユーザID(メアド)が更新したユーザIDと違う場合
-	//変更したメアドにメールを送る
-	$result = true;			//成功したかのフラグ
-	$mailupdate = false;	//メールアドレスが更新されたかのフラグ
-	
-	//正常終了した場合コミットする
-	if( $result )
+
+	//アカウント停止の場合はトークンが残っている場合のあるので削除する
+	if( $userdata["registtype"] == 2 )
 	{
-		$mysql->Commit();		//トランザクション　終わり
+		DeleteTokenToUserIDMySQL("localhost","webuser","user","website","tokenlist" , $_SESSION["userID_admin"]);
 	}
+
+ 
+	$mysql->Commit();		//トランザクション　終わり
 
 	//セッションの更新と余計なデータを削除する
 	$_SESSION["userID_admin"] = $userdata["userID"];
@@ -65,7 +66,7 @@ try
 }
 catch( PDOException $e )
 {
-	echo "ERROR UPDATE".$e->getMessage();
+	$result = false;
 	$mysql->RollBack();
 }
 ?>
@@ -103,14 +104,10 @@ catch( PDOException $e )
 		if( $result )
 		{
 			echo "ユーザ情報を更新しました。";
-			if( $mailupdate  )
-			{
-				echo "変更したメールアドレスにメールが届きます。";
-			}
 		}
 		else
 		{
-			echo "メールの送信に失敗しました。<br>ユーザデータは更新前に戻ります<br>";
+			echo "エラーが発生しました。管理者に問い合わせてください";
 		}
 		?>
 	</p>

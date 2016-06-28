@@ -8,6 +8,7 @@ $highgraderegistry;	//本登録かどうかのフラグ
 if( $_SERVER["REQUEST_METHOD"] == "GET" )
 {
 	$highgraderegistry = true;
+	//URLからトークンを取得する
 	$token = $_GET["ID"];
 
 	//トークンからユーザIDを取得する
@@ -27,21 +28,21 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 		$result = true;
 		$mysql->Transaction();	//トランザクション　始め
 
-		//本登録処理SQL プリペアにするべき
+		//本登録処理SQL プリペアにするべき?
 		$updateSQL = "update userlist set registtype = 1 where userID = '".$userID."'";
 		$deleteSQL = "delete from tokenlist where token = '".$token."'";
 		//取得処理でないため　受け取ることはしない
 		$mysql->QuickQuery($updateSQL);
 		//トークン削除
 		$mysql->QuickQuery($deleteSQL);
+		$mysql->Commit();
 	}
 	catch( PDOException $e )
 	{
 		$mysql->RollBack();
-		echo "DBERROR -> ".$e->getMessage();
+	//	echo "DBERROR -> ".$e->getMessage();
 		$result = false;
 	}
-	$mysql->Commit();
 }
 //仮登録
 else
@@ -115,7 +116,7 @@ else
 		$result = true;		//HTML出力用フラグ
 		//本登録用メールを送る
 		$Title = "ユーザ仮登録";
-		$str = "リンクをクリックすると本登録完了になります。\nhttp://192.168.198.129/training/moc/userregistrydone.php?ID=".$token;
+		$str = "リンクをクリックすると本登録完了になります。\nhttp://192.168.198.129/training/web/userregistrydone.php?ID=".$token;
 		$header = "From: y-sasajima@systemzeus.co.jp";
 		mb_language('ja');
 		mb_internal_encoding("UTF-8");	
@@ -183,15 +184,19 @@ else
 		<?php
 		if( $result )
 		{
-			echo "ユーザ情報を登録しました。<br>";
-			if( !$highgraderegistry )
+			if( $highgraderegistry )
 			{
-				echo "登録したメールアドレスにメールが届きます。<br>メールにあるリンクから本登録を行ってください。";
+				echo "本会員登録しました。";
+			}
+			else
+			{
+				echo "仮会員登録しました。登録したメールアドレスに本登録用のメールが届きます。<br>";
+				echo "メールにあるリンクから本登録を行ってください。";
 			}
 		}
 		else
 		{
-			echo "メールの送信に失敗しました。<br>再度登録してください<br>";
+			echo "エラーが発生しました。管理者に問い合わせてください。<br>";
 		}
 		?>
 	</p>

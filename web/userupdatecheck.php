@@ -8,7 +8,7 @@ if($_SERVER["REQUEST_METHOD"] != "POST" )
 	header("Location: user.php");
 	exit;
 }
-
+//重複フラグ
 $IDisUse = false;
 try
 {
@@ -30,11 +30,12 @@ try
 }
 catch(PDOException $e)
 {
-	echo "ERROR 重複チェック".$e->getMessage();
+	header("Location: user.php");
+	exit;
+	//echo "ERROR 重複チェック".$e->getMessage();
 }
 
 //最初に０で初期化して、送られたチェックボックスの名前を調べる
-//未選択時バグあり
 $beef = 0;
 $vegetable = 0;
 $fish = 0;
@@ -133,7 +134,7 @@ function submitcancel()
 		</form>
 		<?php } else { ?>
 		<h1 class="page-header">ユーザの重複</h1>
-		入力されたユーザ名がすでに存在します<br>
+		ユーザIDが重複しています<br>
 		<a href='./user.php'>ユーザページに戻る</a>
 		<?php } ?>
 	</div>

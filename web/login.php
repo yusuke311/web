@@ -5,10 +5,12 @@
 
 	//管理者ID
 	$adminID 	= "admin";
-	$adminpass		= "suez";
+	//管理者パス
+	$adminpass	= "suez";
 
 	$userID;
 	$pass;
+	//ユーザログインに失敗したかのフラグ
 	$failed = false;
 
 	//ログアウト処理を行う
@@ -26,6 +28,7 @@
 			}
 			session_destroy();
 			header("Location: ./login.php");
+			exit;
 		}
 	}
 
@@ -54,7 +57,8 @@
 			$mysql->PrepareQuery("select * from userlist where userID = :userID and password = :password and registtype = 1");
 			if( !$mysql->Execute(array(":userID"=>$userID,":password"=>$pass)) )
 			{
-				echo "Executeエラー";
+				//	echo "Executeエラー";
+				exit;
 			}
 		
 			//userが存在した場合
@@ -77,7 +81,8 @@
 		}
 		catch(PDOException $e)
 		{
-			echo "エラー".$e->getMessage();
+		//	echo "エラー".$e->getMessage();
+			exit;
 		}
 
 	}
@@ -118,12 +123,12 @@
 		<h1 class="page-header">ログイン</h1>
 		<div class="well">
 		<form method="POST" action="login.php">
-			<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが一致しません</font>';?>
+			<?php if( $failed ) echo '<font color="red">ユーザ名またはパスワードが間違っています。</font>';?>
 			<div class="form-group">
 				ユーザID<input type="TEXT" name="userID" class="form-control" maxlength="64" /><br>
 			</div>
 			<div class="form-group">
-				パスワード<input type="PASSWORD" class="form-control" maxlength="32" pattern="^[0-9A-Za-z]+$"  name="pass"/><br>
+				パスワード<input type="PASSWORD" class="form-control" maxlength="32" style="ime-mode:disabled"  name="pass"/><br>
 			</div>
 			<button type="submit" class="btn btn-primary form-control">ログイン</button>
 		</form>

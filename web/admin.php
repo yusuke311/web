@@ -51,7 +51,7 @@ try
 	$mysql->PrepareQuery($SQL);
 	if( !$mysql->Execute($Param) )
 	{
-		echo "execute error";
+		header("Location: ./login.php");
 		exit;
 	}
 	$count = 0;
@@ -85,7 +85,9 @@ try
 }
 catch( PDOException $e  )
 {
-	echo "ERROR".$e->getMessage();
+	header("Location: ./login.php");
+	exit;
+	//echo "ERROR".$e->getMessage();
 }
 
 ?>
