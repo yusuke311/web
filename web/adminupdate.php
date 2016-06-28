@@ -7,7 +7,7 @@ session_start();
 //データがない場合ユーザページに遷移する
 if( !isset($_SESSION["userdata"]) )
 {
-	header("Location: user.php");
+	header("Location: adminiuser.php");
 	exit;
 }
 
@@ -43,22 +43,14 @@ $Param = array(
 
 try
 {
+	$result = true;
 	$mysql = new MyPDOClass();
 	$mysql->ConnectSQL("MYSQL","localhost","webuser","user","website");
 	$mysql->Transaction();	//トランザクション　始め
 	$mysql->PrepareQuery($SQL);
 	$mysql->Execute($Param);
 
-	
-	//ログイン時のユーザID(メアド)が更新したユーザIDと違う場合
-	//変更したメアドにメールを送る
-	$result = true;			//成功したかのフラグ
- 
-	//正常終了した場合コミットする
-	if( $result )
-	{
-		$mysql->Commit();		//トランザクション　終わり
-	}
+	$mysql->Commit();		//トランザクション　終わり
 
 	//セッションの更新と余計なデータを削除する
 	$_SESSION["userID_admin"] = $userdata["userID"];
@@ -66,7 +58,7 @@ try
 }
 catch( PDOException $e )
 {
-	echo "ERROR UPDATE".$e->getMessage();
+	$result = false;
 	$mysql->RollBack();
 }
 ?>
@@ -107,7 +99,7 @@ catch( PDOException $e )
 		}
 		else
 		{
-			echo "ユーザの更新に失敗しました。<br>ユーザデータは更新前に戻ります<br>";
+			echo "エラーが発生しました。管理者に問い合わせてください";
 		}
 		?>
 	</p>

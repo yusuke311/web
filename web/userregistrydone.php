@@ -35,6 +35,7 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 		$mysql->QuickQuery($updateSQL);
 		//トークン削除
 		$mysql->QuickQuery($deleteSQL);
+		$mysql->Commit();
 	}
 	catch( PDOException $e )
 	{
@@ -42,7 +43,6 @@ if( $_SERVER["REQUEST_METHOD"] == "GET" )
 	//	echo "DBERROR -> ".$e->getMessage();
 		$result = false;
 	}
-	$mysql->Commit();
 }
 //仮登録
 else
@@ -184,15 +184,19 @@ else
 		<?php
 		if( $result )
 		{
-			echo "ユーザ情報を登録しました。<br>";
-			if( !$highgraderegistry )
+			if( $highgraderegistry )
 			{
-				echo "登録したメールアドレスにメールが届きます。<br>メールにあるリンクから本登録を行ってください。";
+				echo "本会員登録しました。";
+			}
+			else
+			{
+				echo "仮会員登録しました。登録したメールアドレスに本登録用のメールが届きます。<br>";
+				echo "メールにあるリンクから本登録を行ってください。";
 			}
 		}
 		else
 		{
-			echo "メールの送信に失敗しました。<br>再度登録してください<br>";
+			echo "エラーが発生しました。管理者に問い合わせてください。<br>";
 		}
 		?>
 	</p>

@@ -5,7 +5,7 @@ session_start();
 //POSTされていない場合ユーザページに遷移する
 if($_SERVER["REQUEST_METHOD"] != "POST" )
 {
-	header("Location: user.php");
+	header("Location: adminuser.php");
 	exit;
 }
 //重複フラグ
@@ -152,7 +152,7 @@ function submitcancel()
 		</form>
 		<?php } else { ?>
 		<h1 class="page-header">ユーザの重複</h1>
-		入力されたユーザ名がすでに存在します<br>
+		ユーザIDが重複しています<br>
 		<a href='./adminuser.php'>ユーザ編集ページに戻る</a>
 		<?php } ?>
 	</div>

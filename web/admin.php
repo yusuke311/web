@@ -85,7 +85,9 @@ try
 }
 catch( PDOException $e  )
 {
-	echo "ERROR".$e->getMessage();
+	header("Location: ./login.php");
+	exit;
+	//echo "ERROR".$e->getMessage();
 }
 
 ?>

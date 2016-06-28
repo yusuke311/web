@@ -46,12 +46,12 @@ input
 			<div id="userID"> ユーザID<span class="text-danger">※</span></div><input type="EMAIL" class="form-control" name="userID" maxlength="64" /><br>
 			</div>
 			<div class="form-group">
-			<div id="pass">パスワード<span class="text-danger">※</span></div><input type="PASSWORD" class="form-control" name="pass" maxlength="32" pattern="^[0-9A-Za-z]+$"/><br>
+			<div id="pass">パスワード<span class="text-danger">※</span></div><input type="PASSWORD" class="form-control" name="pass" maxlength="32"  style="ime-mode:disabled"/><br>
 			</div>
 			<div class="form-group">
 				<div id="pass_re">
 					パスワード(確認)<span class="text-danger">※</span>
-				</div><input type="PASSWORD" class="form-control"  name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32" pattern="^[0-9A-Za-z]+$"/><br>
+				</div><input type="PASSWORD" class="form-control"  name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32" style="ime-mode:disabled"/><br>
 			</div>
 			<div class="form-group">
 			<div id="name">氏名<span class="text-danger">※</span></div><input type="TEXT" class="form-control" name="name"maxlength="128"/><br>
@@ -89,7 +89,7 @@ input
 					魚<input  type="CHECKBOX" class="check-inline" name="like[]" value="fish"/>
 			</div>
 			<div class="form-group">
-					<input type="SUBMIT"  class="form-control" value="登録"  /><br>
+					<input type="SUBMIT"  class="form-control btn-primary" value="登録"  /><br>
 			</div>
 			</form>
 		</div>

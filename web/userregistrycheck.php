@@ -119,7 +119,7 @@ function submitcancel()
 		</form>
 		<?php } else { ?>
 		<h1 class="page-header">ユーザの重複</h1>
-		入力されたユーザ名がすでに存在します<br>
+		ユーザIDが重複しています<br>
 		<a href='./userregistry.php'>ユーザ登録に戻る</a>
 		<?php } ?>
 	</div>

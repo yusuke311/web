@@ -117,7 +117,7 @@ catch( PDOException $e )
 		<?php
 		if( $result )
 		{
-			echo "ユーザ情報を更新しました。";
+			echo "情報を更新しました。";
 			if( $mailupdate  )
 			{
 				echo "変更したメールアドレスにメールが届きます。";
@@ -125,7 +125,7 @@ catch( PDOException $e )
 		}
 		else
 		{
-			echo "メールの送信に失敗しました。<br>ユーザデータは更新前に戻ります<br>";
+			echo "エラーが発生しました。管理者に問い合わせてください<br>ユーザデータは更新前に戻ります<br>";
 		}
 		?>
 	</p>

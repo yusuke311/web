@@ -14,7 +14,7 @@ if($_SESSION["admin"] == false || ( isset($_SESSION["userID_admin"]) == false &&
 
 //編集されるユーザが格納されていない場合格納する
 if( isset($_SESSION["userID_admin"]) == false )
-{
+
 	//送られたユーザIDをセッションに記憶する
 	//$_SESSION["userID"]はユーザページで使用しているため重複を避けるために別の名前を使用する
 	$_SESSION["userID_admin"] = htmlspecialchars_decode($_POST["userID"],ENT_QUOTES);
@@ -84,13 +84,13 @@ input
 				<div id="pass">
 					パスワード<span class="text-danger">※</span>
 				</div>
-				<input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32" pattern="^[0-9A-Za-z]+$"/><br>
+				<input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32" style="ime-mode:disabled"/><br>
 			</div>
 			<div class="form-group">
 				<div id="pass_re">
 					パスワード(確認)<span class="text-danger">※</span>
 				</div>
-				<input type="PASSWORD" class="form-control" name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32" pattern="^[0-9A-Za-z]+$"/><br>
+				<input type="PASSWORD" class="form-control" name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32" style="ime-mode:disabled"/><br>
 			</div>
 			<div class="form-group">
 				<div id="name">

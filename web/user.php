@@ -78,12 +78,12 @@ input
 			<div class="form-group">
 				<div id="pass">
 					パスワード<span class="text-danger">※</span>
-				</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32" pattern="^[0-9A-Za-z]+$"/><br>
+				</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32" style="ime-mode:disabled"/><br>
 			</div>
 			<div class="form-group">
 				<div id="pass_re">
 					パスワード(確認)<span class="text-danger">※</span>
-				</div><input type="PASSWORD" class="form-control"  name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32" pattern="^[0-9A-Za-z]+$"/><br>
+				</div><input type="PASSWORD" class="form-control"  name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32" style="ime-mode:disabled"/><br>
 			</div>
 			<div class="form-group">
 				<div id="name">

@@ -128,7 +128,7 @@
 				ユーザID<input type="TEXT" name="userID" class="form-control" maxlength="64" /><br>
 			</div>
 			<div class="form-group">
-				パスワード<input type="PASSWORD" class="form-control" maxlength="32" pattern="^[0-9A-Za-z]+$"  name="pass"/><br>
+				パスワード<input type="PASSWORD" class="form-control" maxlength="32" style="ime-mode:disabled"  name="pass"/><br>
 			</div>
 			<button type="submit" class="btn btn-primary form-control">ログイン</button>
 		</form>
