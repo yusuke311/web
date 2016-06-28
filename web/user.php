@@ -78,12 +78,12 @@ input
 			<div class="form-group">
 				<div id="pass">
 					パスワード<span class="text-danger">※</span>
-				</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
+				</div><input type="PASSWORD" class="form-control" name="pass" value="<?php echo $data['password']; ?>" maxlength="32" pattern="^[0-9A-Za-z]+$"/><br>
 			</div>
 			<div class="form-group">
 				<div id="pass_re">
 					パスワード(確認)<span class="text-danger">※</span>
-				</div><input type="PASSWORD" class="form-control"  name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32"/><br>
+				</div><input type="PASSWORD" class="form-control"  name="pass_re" value="<?php echo $data['password']; ?>" maxlength="32" pattern="^[0-9A-Za-z]+$"/><br>
 			</div>
 			<div class="form-group">
 				<div id="name">
@@ -113,7 +113,7 @@ input
 					<input type="RADIO" class="radio-inline" name="sex" value="0" <?php if($data['sex'] == 0 )echo "checked='checked'";?>/>未回答&nbsp;<br>
 			</div>
 			<div class="form-group">
-					電話番号<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" maxlength="11" value="<?php echo $data['tel'];?>" />
+					電話番号(半角数字のみ)<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" maxlength="11" value="<?php echo $data['tel'];?>" />
 			</div>
 			<div class="form-group">
 					好きなモノは何ですか?<br>

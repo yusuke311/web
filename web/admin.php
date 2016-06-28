@@ -51,7 +51,7 @@ try
 	$mysql->PrepareQuery($SQL);
 	if( !$mysql->Execute($Param) )
 	{
-		echo "execute error";
+		header("Location: ./login.php");
 		exit;
 	}
 	$count = 0;
