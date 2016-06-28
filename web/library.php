@@ -19,7 +19,7 @@ function GetOnlyOneTokenMySQL($host,$user,$pass,$dbname,$tablename,$column)
 			$mysql->PrepareQuery($SQL);
 			if( !$mysql->Execute(array(":token"=>$token)) )
 			{
-				echo "tokenERROR".$token;
+				//echo "tokenERROR".$token;
 			}
 
 			if( !$mysql->fetch_num() )
@@ -31,7 +31,7 @@ function GetOnlyOneTokenMySQL($host,$user,$pass,$dbname,$tablename,$column)
 	}
 	catch(PDOException $e)
 	{
-		echo "PDOException".$e->getMessage();
+		//echo "PDOException".$e->getMessage();
 	}
 	return bin2hex($token);
 }
@@ -48,7 +48,7 @@ function GetUserIDToTokenMySQL($host,$user,$pass,$dbname,$tablename,$token)
 		$mysql->PrepareQuery($SQL);
 		if( !$mysql->Execute(array(":token"=>$token)) )
 		{
-			echo "tokenERROR".$token;
+			//echo "tokenERROR".$token;
 		}
 		
 		$result = $mysql->fetch_assoc();
@@ -62,8 +62,44 @@ function GetUserIDToTokenMySQL($host,$user,$pass,$dbname,$tablename,$token)
 	}	
 	catch(PDOException $e)
 	{
-		echo "ERROR->GetPairTOTOkenMySQL()".$e->getMessage();
+		//echo "ERROR->GetPairTOTOkenMySQL()".$e->getMessage();
 	}
 }
+
+
+function DeleteTokenToUserIDMySQL($host,$user,$pass,$dbname,$tablename,$userID)
+{
+	if($userID == NULL)
+	{
+		return true;
+	}
+	
+	$mysql = new MyPDOClass();
+	$mysql->ConnectSQL("MYSQL",$host,$user,$pass,$dbname);
+
+	$SQL = "delete from ".$tablename." where userID = :userID ";
+
+	try
+	{
+		$mysql->PrepareQuery($SQL);
+		if( !$mysql->Execute(array(":userID"=>$userID)) )
+		{
+			//echo "tokenERROR".$token;
+			return false;
+		}
+		
+	
+		return true;
+
+	}	
+	catch(PDOException $e)
+	{
+		return false;
+		//echo "ERROR->GetPairTOTOkenMySQL()".$e->getMessage();
+	}
+	 
+}
+
+
 
 ?>

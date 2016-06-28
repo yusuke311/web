@@ -1,6 +1,7 @@
 <?php
 
 require_once("./sqlclass.php");
+require_once("./library.php");
 
 session_start();
 
@@ -50,6 +51,13 @@ try
 	$mysql->PrepareQuery($SQL);
 	$mysql->Execute($Param);
 
+	//アカウント停止の場合はトークンが残っている場合のあるので削除する
+	if( $userdata["registtype"] == 2 )
+	{
+		DeleteTokenToUserIDMySQL("localhost","webuser","user","website","tokenlist" , $_SESSION["userID_admin"]);
+	}
+
+ 
 	$mysql->Commit();		//トランザクション　終わり
 
 	//セッションの更新と余計なデータを削除する

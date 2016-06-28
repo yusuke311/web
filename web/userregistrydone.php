@@ -116,7 +116,7 @@ else
 		$result = true;		//HTML出力用フラグ
 		//本登録用メールを送る
 		$Title = "ユーザ仮登録";
-		$str = "リンクをクリックすると本登録完了になります。\nhttp://192.168.198.129/training/moc/userregistrydone.php?ID=".$token;
+		$str = "リンクをクリックすると本登録完了になります。\nhttp://192.168.198.129/training/web/userregistrydone.php?ID=".$token;
 		$header = "From: y-sasajima@systemzeus.co.jp";
 		mb_language('ja');
 		mb_internal_encoding("UTF-8");	
