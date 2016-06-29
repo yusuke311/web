@@ -29,24 +29,6 @@ $data = $userdata->GetUserData(true);
 <head>
 <title>ユーザーページ</title>
 <style>
-.centerleft
-{
-	margin-left:auto;
-	margin-right:auto;
-	width:200px;
-}
-input
-{
-	margin-top:10px;
-	margin-bottom:20px;
-	margin-left:2px;
-	border-top-width: 2px;
-	border-left-width: 1px;
-	margin-right: 2px;
-	border-right-width: 2px;
-	margin-left: 2px;
-	padding:2px;
-}
 @media (min-width: 500px) {
         .container {
           max-width: 500px;

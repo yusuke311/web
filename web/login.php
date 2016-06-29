@@ -99,9 +99,9 @@
     <!-- BootstrapのJS読み込み -->
 	<script src="js/bootstrap.min.js"></script>
 <style>
-@media (min-width: 400px) {
+@media (min-width: 430px) {
         .container {
-          max-width: 400px;
+          max-width: 430px;
         }
 }
 </style>
