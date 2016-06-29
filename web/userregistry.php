@@ -57,7 +57,7 @@ input
 			<div id="name">氏名<span class="text-danger">※</span></div><input type="TEXT" class="form-control" name="name"maxlength="128"/><br>
 			</div>
 			<div class="form-group">
-					郵便番号<br><input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode" maxlength="8"/>
+					郵便番号<br><input type="TEXT" pattern="\d{7}" title="未入力か半角数字7文字で入力してください" class="form-control" name="postalcode" maxlength="8"/>
 					<input type="button" class="btn btn-default"name="autoaddress" value="自動入力" onclick="Autopostal()"><br>
 			</div>
 			<div class="form-group">
@@ -80,7 +80,7 @@ input
 					<input type="RADIO" class="radio-inline" name="sex" value="0" checked="checked" />未回答&nbsp;<br>
 			</div>
 			<div class="form-group">
-					電話番号(半角数字のみ)<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" maxlength="11" />
+					電話番号(半角数字のみ)<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" title="半角数字で入力してください" maxlength="11" />
 			</div>
 			<div class="form-group">
 					好きなモノは何ですか?<br>

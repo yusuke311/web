@@ -92,7 +92,7 @@ input
 			</div>
 			<div class="form-group">
 					郵便番号<br>
-					<input type="TEXT" pattern="\d{7}" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>"maxlength="8" />
+					<input type="TEXT" pattern="\d{7}" title="未入力か半角数字7文字で入力してください" class="form-control" name="postalcode"value="<?php echo $data['postal'];?>"maxlength="8" />
 					<input type="button" class="btn btn-default"name="autoaddress" value="自動入力" onclick="Autopostal()"><br>
 			</div>
 			<div class="form-group">
@@ -113,7 +113,7 @@ input
 					<input type="RADIO" class="radio-inline" name="sex" value="0" <?php if($data['sex'] == 0 )echo "checked='checked'";?>/>未回答&nbsp;<br>
 			</div>
 			<div class="form-group">
-					電話番号(半角数字のみ)<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" maxlength="11" value="<?php echo $data['tel'];?>" />
+					電話番号(半角数字のみ)<br><input type="TEXT"  class="form-control" name="tel" pattern="^([0-9]{10,})$" title="半角数字で入力してください" maxlength="11" value="<?php echo $data['tel'];?>" />
 			</div>
 			<div class="form-group">
 					好きなモノは何ですか?<br>
