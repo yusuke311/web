@@ -8,7 +8,7 @@ session_start();
 //データがない場合ユーザページに遷移する
 if( !isset($_SESSION["userdata"]) )
 {
-	header("Location: adminiuser.php");
+	header("Location: adminuser.php");
 	exit;
 }
 
